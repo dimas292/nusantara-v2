@@ -1,0 +1,867 @@
+---
+// Import data provinsi
+import { Provinces } from "../constant/province";
+
+const content = {
+    id: {
+        eyebrow: "Jelajahi",
+        title: "Peta Budaya Indonesia",
+        subtitle:
+            "Klik pada region untuk menemukan kekayaan budaya setiap wilayah",
+    },
+    en: {
+        eyebrow: "Explore",
+        title: "Indonesia Cultural Map",
+        subtitle:
+            "Click on a region to discover the cultural richness of each area",
+    },
+};
+---
+
+<section class="map-section" id="map">
+    <div class="section-header fade-up">
+        <span
+            class="section-header__eyebrow"
+            data-content-id={content.id.eyebrow}
+            data-content-en={content.en.eyebrow}
+        >
+            {content.id.eyebrow}
+        </span>
+        <h2
+            class="section-header__title"
+            data-content-id={content.id.title}
+            data-content-en={content.en.title}
+        >
+            {content.id.title}
+        </h2>
+        <p
+            class="section-header__subtitle"
+            data-content-id={content.id.subtitle}
+            data-content-en={content.en.subtitle}
+        >
+            {content.id.subtitle}
+        </p>
+    </div>
+
+    <svg
+        id="indonesia-map"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 792.54596 316.66394"
+        class="map-svg fade-up"
+    >
+        <g>
+            {
+                Provinces.map((province, idx) => (
+                    <path
+                        data-idx={idx}
+                        id={province.id}
+                        data-title={province.title}
+                        data-title-en={province.title_en || ""}
+                        data-short-description={
+                            province.short_description || ""
+                        }
+                        data-description={province.description || ""}
+                        data-image={province.image_url || ""}
+                        data-population={province.population || ""}
+                        data-area={province.area_km2 || ""}
+                        data-capital={province.capital || ""}
+                        data-region={province.region || ""}
+                        data-island={province.island || ""}
+                        data-coordinates={province.coordinates?.join(",") || ""}
+                        d={province.path}
+                        class="province-path"
+                        fill="#dc2626"
+                        stroke="#ffffff"
+                        stroke-width="0.5"
+                    />
+                ))
+            }
+        </g>
+    </svg>
+
+    <!-- Tooltip -->
+    <div id="tooltip" class="tooltip hidden">
+        <div class="tooltip-content">
+            <div id="tooltip-description" class="tooltip-desc hidden">
+                <p></p>
+            </div>
+            <div class="tooltip-title-box">
+                <div id="tooltip-title" class="tooltip-title"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="province-modal" class="modal hidden">
+        <div class="modal-overlay">
+            <div class="modal-container">
+                <div class="modal-scroll">
+                    <!-- Header dengan Image -->
+                    <div class="modal-header">
+                        <img
+                            id="modal-image"
+                            src=""
+                            alt=""
+                            class="modal-image"
+                        />
+                        <div class="modal-header-gradient"></div>
+                        <div class="modal-header-content">
+                            <h2 id="modal-title" class="modal-title"></h2>
+                            <p id="modal-title-en" class="modal-title-en"></p>
+                        </div>
+                        <button id="modal-close" class="modal-close">
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="24"
+                                height="24"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                            >
+                                <line x1="18" y1="6" x2="6" y2="18"></line>
+                                <line x1="6" y1="6" x2="18" y2="18"></line>
+                            </svg>
+                        </button>
+                    </div>
+
+                    <!-- Content -->
+                    <div class="modal-body">
+                        <!-- Short Description -->
+                        <div
+                            id="modal-short-description"
+                            class="card card-highlight hidden"
+                        >
+                            <p></p>
+                        </div>
+
+                        <!-- Description -->
+                        <div id="modal-description" class="card hidden">
+                            <h3 id="modal-about-title" class="card-title"></h3>
+                            <p></p>
+                        </div>
+
+                        <!-- Info Grid -->
+                        <div class="info-grid">
+                            <div
+                                id="modal-capital-container"
+                                class="info-card hidden"
+                            >
+                                <h4 class="info-label">Ibu Kota</h4>
+                                <p id="modal-capital" class="info-value"></p>
+                            </div>
+                            <div
+                                id="modal-population-container"
+                                class="info-card hidden"
+                            >
+                                <h4 class="info-label">Populasi</h4>
+                                <p id="modal-population" class="info-value"></p>
+                            </div>
+                            <div
+                                id="modal-area-container"
+                                class="info-card hidden"
+                            >
+                                <h4 class="info-label">Luas Wilayah</h4>
+                                <p id="modal-area" class="info-value"></p>
+                            </div>
+                            <div
+                                id="modal-region-container"
+                                class="info-card hidden"
+                            >
+                                <h4 class="info-label">Region</h4>
+                                <p id="modal-region" class="info-value"></p>
+                            </div>
+                            <div
+                                id="modal-island-container"
+                                class="info-card hidden"
+                            >
+                                <h4 class="info-label">Pulau</h4>
+                                <p id="modal-island" class="info-value"></p>
+                            </div>
+                            <div
+                                id="modal-coordinates-container"
+                                class="info-card hidden"
+                            >
+                                <h4 class="info-label">Koordinat</h4>
+                                <p id="modal-coordinates" class="info-value">
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const tooltip = document.getElementById("tooltip");
+        const tooltipTitle = document.getElementById("tooltip-title");
+        const tooltipDescription = document.getElementById(
+            "tooltip-description",
+        );
+        const modal = document.getElementById("province-modal");
+        const modalClose = document.getElementById("modal-close");
+        const paths = document.querySelectorAll(".province-path");
+
+        paths.forEach((path) => {
+            path.addEventListener("mousemove", (e: MouseEvent) => {
+                const target = e.currentTarget as SVGPathElement;
+                const title = target.getAttribute("data-title");
+                const shortDesc = target.getAttribute("data-short-description");
+
+                if (tooltip && tooltipTitle) {
+                    tooltipTitle.textContent = title || "";
+
+                    if (tooltipDescription && shortDesc) {
+                        tooltipDescription.classList.remove("hidden");
+                        const descP = tooltipDescription.querySelector("p");
+                        if (descP) descP.textContent = shortDesc;
+                    } else if (tooltipDescription) {
+                        tooltipDescription.classList.add("hidden");
+                    }
+
+                    tooltip.classList.remove("hidden");
+                    tooltip.style.left = `${e.clientX + 15}px`;
+                    tooltip.style.top = `${e.clientY - 10}px`;
+                    tooltip.style.transform = "translateY(-100%)";
+                }
+
+                target.setAttribute("fill", "#000000");
+                target.style.filter =
+                    "drop-shadow(0 4px 6px rgba(0, 0, 0, 0.3))";
+            });
+
+            path.addEventListener("mouseleave", (e: MouseEvent) => {
+                const target = e.currentTarget as SVGPathElement;
+
+                if (tooltip) {
+                    tooltip.classList.add("hidden");
+                }
+
+                target.setAttribute("fill", "#dc2626");
+                target.style.filter = "none";
+            });
+
+            /*
+            path.addEventListener("click", (e: MouseEvent) => {
+                const target = e.currentTarget as SVGPathElement;
+                const title = target.getAttribute("data-title");
+                const titleEn = target.getAttribute("data-title-en");
+                const description = target.getAttribute("data-description");
+                const shortDesc = target.getAttribute("data-short-description");
+                const image = target.getAttribute("data-image");
+                const population = target.getAttribute("data-population");
+                const area = target.getAttribute("data-area");
+                const capital = target.getAttribute("data-capital");
+                const region = target.getAttribute("data-region");
+                const island = target.getAttribute("data-island");
+                const coordinates = target.getAttribute("data-coordinates");
+
+                if (modal) {
+                    const modalTitle = document.getElementById("modal-title");
+                    const modalTitleEn =
+                        document.getElementById("modal-title-en");
+                    const modalDescription =
+                        document.getElementById("modal-description");
+                    const modalAboutTitle =
+                        document.getElementById("modal-about-title");
+                    const modalShortDescription = document.getElementById(
+                        "modal-short-description",
+                    );
+                    const modalImage = document.getElementById(
+                        "modal-image",
+                    ) as HTMLImageElement | null;
+                    const modalPopulation =
+                        document.getElementById("modal-population");
+                    const modalPopulationContainer = document.getElementById(
+                        "modal-population-container",
+                    );
+                    const modalArea = document.getElementById("modal-area");
+                    const modalAreaContainer = document.getElementById(
+                        "modal-area-container",
+                    );
+                    const modalCapital =
+                        document.getElementById("modal-capital");
+                    const modalCapitalContainer = document.getElementById(
+                        "modal-capital-container",
+                    );
+                    const modalRegion = document.getElementById("modal-region");
+                    const modalRegionContainer = document.getElementById(
+                        "modal-region-container",
+                    );
+                    const modalIsland = document.getElementById("modal-island");
+                    const modalIslandContainer = document.getElementById(
+                        "modal-island-container",
+                    );
+                    const modalCoordinates =
+                        document.getElementById("modal-coordinates");
+                    const modalCoordinatesContainer = document.getElementById(
+                        "modal-coordinates-container",
+                    );
+
+                    if (modalTitle) modalTitle.textContent = title || "";
+                    if (modalTitleEn) modalTitleEn.textContent = titleEn || "";
+
+                    if (modalImage && image) {
+                        modalImage.src = image;
+                        modalImage.alt = title || "";
+                    }
+
+                    if (modalShortDescription) {
+                        const shortDescP =
+                            modalShortDescription.querySelector("p");
+                        if (shortDesc) {
+                            if (shortDescP) shortDescP.textContent = shortDesc;
+                            modalShortDescription.classList.remove("hidden");
+                        } else {
+                            modalShortDescription.classList.add("hidden");
+                        }
+                    }
+
+                    if (modalDescription) {
+                        const descP = modalDescription.querySelector("p");
+                        if (description) {
+                            if (modalAboutTitle)
+                                modalAboutTitle.textContent = `Tentang ${title}`;
+                            if (descP) descP.textContent = description;
+                            modalDescription.classList.remove("hidden");
+                        } else {
+                            modalDescription.classList.add("hidden");
+                        }
+                    }
+
+                    if (modalCapital && modalCapitalContainer) {
+                        if (capital) {
+                            modalCapital.textContent = capital;
+                            modalCapitalContainer.classList.remove("hidden");
+                        } else {
+                            modalCapitalContainer.classList.add("hidden");
+                        }
+                    }
+
+                    if (modalPopulation && modalPopulationContainer) {
+                        if (population) {
+                            modalPopulation.textContent = population;
+                            modalPopulationContainer.classList.remove("hidden");
+                        } else {
+                            modalPopulationContainer.classList.add("hidden");
+                        }
+                    }
+
+                    if (modalArea && modalAreaContainer) {
+                        if (area) {
+                            const areaNum = parseFloat(area);
+                            modalArea.textContent = `${areaNum.toLocaleString("id-ID")} km²`;
+                            modalAreaContainer.classList.remove("hidden");
+                        } else {
+                            modalAreaContainer.classList.add("hidden");
+                        }
+                    }
+
+                    if (modalRegion && modalRegionContainer) {
+                        if (region) {
+                            modalRegion.textContent = region;
+                            modalRegionContainer.classList.remove("hidden");
+                        } else {
+                            modalRegionContainer.classList.add("hidden");
+                        }
+                    }
+
+                    if (modalIsland && modalIslandContainer) {
+                        if (island) {
+                            modalIsland.textContent = island;
+                            modalIslandContainer.classList.remove("hidden");
+                        } else {
+                            modalIslandContainer.classList.add("hidden");
+                        }
+                    }
+
+                    if (modalCoordinates && modalCoordinatesContainer) {
+                        if (coordinates) {
+                            const coords = coordinates.split(",");
+                            if (coords.length === 2) {
+                                const lat = parseFloat(coords[0]).toFixed(4);
+                                const lng = parseFloat(coords[1]).toFixed(4);
+                                modalCoordinates.textContent = `${lat}°, ${lng}°`;
+                            } else {
+                                modalCoordinates.textContent = coordinates;
+                            }
+                            modalCoordinatesContainer.classList.remove(
+                                "hidden",
+                            );
+                        } else {
+                            modalCoordinatesContainer.classList.add("hidden");
+                        }
+                    }
+
+                    modal.classList.remove("hidden");
+                    document.body.style.overflow = "hidden";
+                }
+            });
+            */
+        });
+
+        if (modalClose) {
+            modalClose.addEventListener("click", () => {
+                if (modal) {
+                    modal.classList.add("hidden");
+                    document.body.style.overflow = "";
+                }
+            });
+        }
+
+        if (modal) {
+            modal.addEventListener("click", (e: MouseEvent) => {
+                if (e.target === modal) {
+                    modal.classList.add("hidden");
+                    document.body.style.overflow = "";
+                }
+            });
+        }
+
+        document.addEventListener("keydown", (e: KeyboardEvent) => {
+            if (
+                e.key === "Escape" &&
+                modal &&
+                !modal.classList.contains("hidden")
+            ) {
+                modal.classList.add("hidden");
+                document.body.style.overflow = "";
+            }
+        });
+    });
+</script>
+
+<style>
+    .hidden {
+        display: none !important;
+    }
+
+    /* Section */
+    .map-section {
+        width: 100%;
+        padding: 3rem 0;
+        background: linear-gradient(to bottom right, #f9fafb, #ffffff, #fef2f2);
+    }
+
+    /* Header */
+    .map-header {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 1rem;
+        text-align: center;
+        margin-bottom: 1.5rem;
+    }
+
+    .map-title {
+        font-size: 1.875rem;
+        font-weight: 700;
+        color: #000;
+        margin-bottom: 1rem;
+    }
+
+    .text-gradient {
+        background: linear-gradient(to right, #dc2626, #991b1b);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .map-description {
+        color: #000;
+        max-width: 48rem;
+        margin: 0 auto 1rem;
+    }
+
+    .map-instruction {
+        font-size: 0.875rem;
+        color: #4b5563;
+        max-width: 42rem;
+        margin: 0 auto 2rem;
+        font-style: italic;
+    }
+
+    .text-red {
+        color: #dc2626;
+        font-weight: 600;
+    }
+
+    /* SVG Map */
+    .map-svg {
+        width: 100%;
+        height: auto;
+        max-height: 500px;
+    }
+
+    .province-path {
+        transition: all 0.2s ease;
+        cursor: pointer;
+    }
+
+    /* Tooltip */
+    .tooltip {
+        position: fixed;
+        z-index: 50;
+        pointer-events: none;
+        animation: fadeIn 0.2s ease;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(-100%) scale(0.95);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(-100%) scale(1);
+        }
+    }
+
+    .tooltip-content {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+
+    .tooltip-desc {
+        width: 12rem;
+        overflow: hidden;
+        backdrop-filter: blur(24px);
+        background: rgba(255, 255, 255, 0.9);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        border-radius: 1rem;
+        padding: 0.75rem;
+    }
+
+    .tooltip-desc p {
+        color: #000;
+        font-size: 0.875rem;
+        margin: 0;
+    }
+
+    .tooltip-title-box {
+        position: relative;
+        backdrop-filter: blur(24px);
+        background: rgba(0, 0, 0, 0.9);
+        color: #fff;
+        border-radius: 0.75rem;
+        padding: 0.75rem;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    }
+
+    .tooltip-title {
+        font-weight: 700;
+        font-size: 0.875rem;
+        white-space: nowrap;
+        padding-left: 0.5rem;
+    }
+
+    .corner {
+        position: absolute;
+        width: 0.75rem;
+        height: 0.75rem;
+    }
+
+    .corner-tr {
+        top: -2px;
+        right: -2px;
+        border-top: 2px solid #dc2626;
+        border-right: 2px solid #dc2626;
+    }
+
+    .corner-tl {
+        top: -2px;
+        left: -2px;
+        border-top: 2px solid #dc2626;
+        border-left: 2px solid #dc2626;
+    }
+
+    .corner-br {
+        bottom: -2px;
+        right: -2px;
+        border-bottom: 2px solid #dc2626;
+        border-right: 2px solid #dc2626;
+    }
+
+    .corner-bl {
+        bottom: -2px;
+        left: -2px;
+        border-bottom: 2px solid #dc2626;
+        border-left: 2px solid #dc2626;
+    }
+
+    /* Modal */
+    .modal {
+        position: fixed;
+        inset: 0;
+        z-index: 50;
+        background: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(4px);
+    }
+
+    .modal-overlay {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        padding: 1rem;
+    }
+
+    .modal-container {
+        width: 95vw;
+        max-width: 72rem;
+        height: 90vh;
+        backdrop-filter: blur(48px);
+        background: rgba(255, 255, 255, 0.2);
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        border-radius: 1.5rem;
+        overflow: hidden;
+    }
+
+    .modal-scroll {
+        height: 100%;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+    /* Modal Header */
+    .modal-header {
+        position: relative;
+        height: 300px;
+        width: 100%;
+        overflow: hidden;
+        border-radius: 1.5rem 1.5rem 0 0;
+    }
+
+    .modal-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .modal-header-gradient {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+            to top,
+            rgba(0, 0, 0, 0.8),
+            rgba(0, 0, 0, 0.5),
+            transparent
+        );
+    }
+
+    .modal-header-content {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: 1.5rem;
+    }
+
+    .modal-title {
+        font-size: 1.875rem;
+        font-weight: 700;
+        color: #fff;
+        margin: 0 0 0.5rem;
+    }
+
+    .modal-title-en {
+        font-size: 1.125rem;
+        color: #e5e7eb;
+        margin: 0;
+    }
+
+    .modal-close {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        color: #fff;
+        background: rgba(0, 0, 0, 0.5);
+        border: none;
+        border-radius: 50%;
+        padding: 0.5rem;
+        cursor: pointer;
+        transition: background 0.2s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .modal-close:hover {
+        background: rgba(0, 0, 0, 0.7);
+    }
+
+    /* Modal Body */
+    .modal-body {
+        padding: 1.5rem;
+        max-width: 72rem;
+        margin: 0 auto;
+        backdrop-filter: blur(4px);
+        background: rgba(255, 255, 255, 0.1);
+    }
+
+    .card {
+        margin-bottom: 2rem;
+        backdrop-filter: blur(12px);
+        background: rgba(255, 255, 255, 0.4);
+        padding: 1.5rem;
+        border-radius: 1rem;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-highlight p {
+        font-size: 1.125rem;
+        color: #1f2937;
+        line-height: 1.75;
+        font-weight: 500;
+        margin: 0;
+    }
+
+    .card-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #111827;
+        margin: 0 0 1rem;
+    }
+
+    .card p {
+        font-size: 1rem;
+        color: #374151;
+        line-height: 1.75;
+        margin: 0;
+    }
+
+    /* Info Grid */
+    .info-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        margin-bottom: 2.5rem;
+    }
+
+    .info-card {
+        backdrop-filter: blur(16px);
+        background: rgba(255, 255, 255, 0.5);
+        padding: 1.25rem;
+        border-radius: 0.75rem;
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.4);
+        transition: background 0.2s ease;
+    }
+
+    .info-card:hover {
+        background: rgba(255, 255, 255, 0.6);
+    }
+
+    .info-label {
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: #4b5563;
+        margin: 0 0 0.5rem;
+    }
+
+    .info-value {
+        font-size: 1.125rem;
+        font-weight: 700;
+        color: #111827;
+        margin: 0;
+    }
+
+    /* Responsive */
+    @media (min-width: 640px) {
+        .map-section {
+            padding: 3.5rem 0;
+        }
+
+        .map-header {
+            padding: 0 1.5rem;
+        }
+
+        .map-title {
+            font-size: 2.25rem;
+        }
+
+        .map-instruction {
+            font-size: 1rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .modal-header {
+            height: 350px;
+        }
+
+        .modal-header-content {
+            padding: 2rem;
+        }
+
+        .modal-title {
+            font-size: 2.25rem;
+        }
+
+        .modal-title-en {
+            font-size: 1.25rem;
+        }
+
+        .modal-body {
+            padding: 2rem;
+        }
+
+        .info-grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.25rem;
+        }
+    }
+
+    @media (min-width: 1024px) {
+        .map-section {
+            padding: 4rem 0;
+        }
+
+        .map-header {
+            padding: 0 2rem;
+        }
+
+        .map-title {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .map-instruction {
+            margin-bottom: 3rem;
+        }
+
+        .modal-header {
+            height: 400px;
+        }
+
+        .modal-header-content {
+            padding: 3rem;
+        }
+
+        .modal-title {
+            font-size: 3rem;
+        }
+
+        .modal-title-en {
+            font-size: 1.5rem;
+        }
+
+        .modal-body {
+            padding: 2.5rem;
+        }
+
+        .info-grid {
+            grid-template-columns: repeat(3, 1fr);
+        }
+    }
+</style>

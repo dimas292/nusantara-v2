@@ -1,0 +1,456 @@
+---
+const content = {
+    id: {
+        eyebrow: "Selamat Datang di",
+        title: "Soul of",
+        subtitle:
+            "Jelajahi cerita, tradisi, dan warisan yang terjalin di seluruh kepulauan.",
+        cta: "Mulai Jelajah",
+    },
+    en: {
+        eyebrow: "Discover the",
+        title: "Soul of",
+        subtitle:
+            "Journey through 17,000 islands of rich culture, ancient traditions, and vibrant heritage",
+        cta: "Start Exploring",
+    },
+};
+---
+
+<section class="hero" id="home">
+    <!-- Parallax Background Layers -->
+    <div class="hero__bg-wrapper">
+        <div class="hero__bg hero__bg--back" id="hero-bg-back"></div>
+        <div class="hero__bg hero__bg--mid" id="hero-bg-mid"></div>
+        <div class="hero__bg hero__bg--front" id="hero-bg-front"></div>
+    </div>
+
+    <!-- Gradient Overlay -->
+    <div class="hero__overlay"></div>
+
+    <!-- Content -->
+    <div class="hero__content container">
+        <div class="hero__text">
+            <span
+                class="hero__eyebrow"
+                data-content-id={content.id.eyebrow}
+                data-content-en={content.en.eyebrow}
+            >
+                {content.id.eyebrow}
+            </span>
+            <h1 class="hero__title">
+                <span class="hero__title-line">{content.id.title}</span>
+                <span class="hero__title-line hero__title-line--accent"
+                    >Nusantara</span
+                >
+            </h1>
+            <p
+                class="hero__subtitle"
+                data-content-id={content.id.subtitle}
+                data-content-en={content.en.subtitle}
+            >
+                {content.id.subtitle}
+            </p>
+        </div>
+    </div>
+
+    <!-- Scroll Indicator -->
+    <div class="hero__scroll">
+        <div class="hero__scroll-line"></div>
+    </div>
+
+    <!-- Decorative Elements -->
+    <div class="hero__decor hero__decor--1"></div>
+    <div class="hero__decor hero__decor--2"></div>
+</section>
+
+<style>
+    .hero {
+        position: relative;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+    }
+
+    /* Parallax Background Layers */
+    .hero__bg-wrapper {
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+    }
+
+    .hero__bg {
+        position: absolute;
+        inset: -50px;
+        background-size: cover;
+        background-position: center;
+        will-change: transform;
+    }
+
+    .hero__bg--back {
+        background: linear-gradient(135deg, #2c3e50 0%, #1a252f 100%);
+        transform: scale(1.1);
+    }
+
+    .hero__bg--mid {
+        background-image: url("https://res.cloudinary.com/dmx8hcmxh/image/upload/v1766741469/386_uwr9fy.webp");
+        opacity: 0.7;
+    }
+
+    .hero__bg--front {
+        background: linear-gradient(
+            180deg,
+            transparent 0%,
+            rgba(27, 27, 27, 0.2) 50%,
+            rgba(27, 27, 27, 0.6) 100%
+        );
+    }
+
+    /* Overlay */
+    .hero__overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+            135deg,
+            rgba(27, 27, 27, 0.7) 0%,
+            rgba(27, 27, 27, 0.4) 50%,
+            rgba(27, 27, 27, 0.6) 100%
+        );
+        z-index: 1;
+    }
+
+    /* Content */
+    .hero__content {
+        position: relative;
+        z-index: 2;
+        text-align: center;
+        padding-top: var(--nav-height);
+    }
+
+    .hero__text {
+        max-width: 900px;
+        margin: 0 auto;
+    }
+
+    .hero__eyebrow {
+        display: inline-block;
+        font-size: var(--text-sm);
+        font-weight: 600;
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+        color: var(--terracotta);
+        margin-bottom: var(--space-md);
+        padding: var(--space-xs) var(--space-md);
+        background: rgba(228, 35, 19, 0.1);
+        border-radius: var(--radius-2xl);
+        border: 1px solid rgba(228, 35, 19, 0.2);
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    .hero__title {
+        font-size: clamp(2.5rem, 9vw, 6.5rem);
+        font-weight: 800;
+        line-height: 0.9;
+        color: var(--warm-white);
+        margin-bottom: var(--space-xl);
+        overflow: hidden;
+        letter-spacing: -0.03em;
+        text-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .hero__title-line {
+        display: block;
+        opacity: 0;
+        transform: translateY(100%);
+    }
+
+    .hero__title-line--accent {
+        background: linear-gradient(135deg, var(--terracotta) 0%, #ff6b6b 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        font-style: normal;
+        font-weight: 800;
+        filter: drop-shadow(0 4px 20px rgba(228, 35, 19, 0.4));
+    }
+
+    .hero__subtitle {
+        font-size: var(--text-xl);
+        font-weight: 400;
+        color: rgba(255, 255, 255, 0.9);
+        max-width: 650px;
+        margin: 0 auto var(--space-2xl);
+        line-height: 1.7;
+        letter-spacing: 0.01em;
+        text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    .hero__cta {
+        opacity: 0;
+        transform: translateY(20px);
+        padding: var(--space-md) var(--space-2xl);
+        font-size: var(--text-base);
+        font-weight: 600;
+        letter-spacing: 0.1em;
+        background: linear-gradient(135deg, var(--terracotta) 0%, #ff6b6b 100%);
+        border: none;
+        box-shadow: 0 4px 20px rgba(228, 35, 19, 0.3);
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .hero__cta:hover {
+        transform: translateY(-4px) scale(1.05);
+        box-shadow:
+            0 8px 40px rgba(228, 35, 19, 0.5),
+            0 0 60px rgba(228, 35, 19, 0.3);
+        background: linear-gradient(135deg, #ff6b6b 0%, var(--terracotta) 100%);
+    }
+
+    .hero__cta:active {
+        transform: translateY(-2px) scale(1.02);
+    }
+
+    .hero__cta svg {
+        transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .hero__cta:hover svg {
+        transform: translateY(6px);
+        animation: bounceArrow 0.6s ease-in-out infinite;
+    }
+
+    @keyframes bounceArrow {
+        0%,
+        100% {
+            transform: translateY(6px);
+        }
+        50% {
+            transform: translateY(10px);
+        }
+    }
+
+    /* Scroll Indicator */
+    .hero__scroll {
+        position: absolute;
+        bottom: var(--space-2xl);
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 2;
+    }
+
+    .hero__scroll-line {
+        width: 1px;
+        height: 60px;
+        background: linear-gradient(
+            to bottom,
+            var(--terracotta) 0%,
+            transparent 100%
+        );
+        animation: scrollIndicator 2s ease-in-out infinite;
+    }
+
+    @keyframes scrollIndicator {
+        0%,
+        100% {
+            opacity: 0;
+            transform: scaleY(0);
+            transform-origin: top;
+        }
+        50% {
+            opacity: 1;
+            transform: scaleY(1);
+        }
+    }
+
+    /* Decorative Elements */
+    .hero__decor {
+        position: absolute;
+        border: 1px solid rgba(198, 90, 58, 0.3);
+        border-radius: 50%;
+        z-index: 1;
+        pointer-events: none;
+    }
+
+    .hero__decor--1 {
+        width: 400px;
+        height: 400px;
+        top: 10%;
+        right: -100px;
+        opacity: 0;
+    }
+
+    .hero__decor--2 {
+        width: 300px;
+        height: 300px;
+        bottom: 15%;
+        left: -80px;
+        opacity: 0;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .hero__title {
+            font-size: clamp(2.5rem, 15vw, 5rem);
+        }
+
+        .hero__subtitle {
+            font-size: var(--text-base);
+            padding: 0 var(--space-md);
+        }
+
+        .hero__decor {
+            display: none;
+        }
+    }
+</style>
+
+<script>
+    import gsap from "gsap";
+    import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Wait for loader to finish
+    setTimeout(() => {
+        // Hero entrance animations
+        const heroTl = gsap.timeline({ delay: 0.2 });
+
+        heroTl
+            .to(".hero__eyebrow", {
+                opacity: 1,
+                y: 0,
+                duration: 0.8,
+                ease: "power2.out",
+            })
+            .to(
+                ".hero__title-line",
+                {
+                    opacity: 1,
+                    y: 0,
+                    duration: 1,
+                    stagger: 0.15,
+                    ease: "power3.out",
+                },
+                "-=0.4",
+            )
+            .to(
+                ".hero__subtitle",
+                {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.8,
+                    ease: "power2.out",
+                },
+                "-=0.6",
+            )
+            .to(
+                ".hero__cta",
+                {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.6,
+                    ease: "power2.out",
+                },
+                "-=0.4",
+            )
+            .to(
+                ".hero__decor--1",
+                {
+                    opacity: 1,
+                    scale: 1,
+                    duration: 1.2,
+                    ease: "power2.out",
+                },
+                "-=0.8",
+            )
+            .to(
+                ".hero__decor--2",
+                {
+                    opacity: 1,
+                    scale: 1,
+                    duration: 1.2,
+                    ease: "power2.out",
+                },
+                "-=1",
+            );
+
+        // Parallax effect on scroll
+        gsap.to(".hero__bg--mid", {
+            yPercent: 30,
+            ease: "none",
+            scrollTrigger: {
+                trigger: ".hero",
+                start: "top top",
+                end: "bottom top",
+                scrub: 1,
+            },
+        });
+
+        // Slow zoom effect
+        gsap.to(".hero__bg--mid", {
+            scale: 1.15,
+            ease: "none",
+            scrollTrigger: {
+                trigger: ".hero",
+                start: "top top",
+                end: "bottom top",
+                scrub: 2,
+            },
+        });
+
+        // Decorative elements float
+        gsap.to(".hero__decor--1", {
+            y: -30,
+            rotation: 10,
+            ease: "none",
+            scrollTrigger: {
+                trigger: ".hero",
+                start: "top top",
+                end: "bottom top",
+                scrub: 1,
+            },
+        });
+
+        gsap.to(".hero__decor--2", {
+            y: 20,
+            rotation: -5,
+            ease: "none",
+            scrollTrigger: {
+                trigger: ".hero",
+                start: "top top",
+                end: "bottom top",
+                scrub: 1,
+            },
+        });
+
+        // Content fade out on scroll
+        gsap.to(".hero__content", {
+            opacity: 0,
+            y: -50,
+            ease: "none",
+            scrollTrigger: {
+                trigger: ".hero",
+                start: "center top",
+                end: "bottom top",
+                scrub: 1,
+            },
+        });
+    }, 2000);
+
+    // Language change handler
+    window.addEventListener("langchange", (e: CustomEvent) => {
+        const lang = e.detail.lang;
+
+        document.querySelectorAll("[data-content-id]").forEach((el) => {
+            const contentId = el.getAttribute("data-content-id");
+            const contentEn = el.getAttribute("data-content-en");
+            const spanEl = el.querySelector("span") || el;
+            spanEl.textContent = lang === "id" ? contentId : contentEn;
+        });
+    });
+</script>

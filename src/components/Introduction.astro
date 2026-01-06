@@ -1,0 +1,377 @@
+---
+const content = {
+    id: {
+        eyebrow: "Pengenalan",
+        title: "Rumah Bagi Ribuan Budaya",
+        description:
+            "Indonesia adalah mozaik peradaban yang kaya. Dari Sabang hingga Merauke, lebih dari 17.000 pulau menyimpan tradisi, bahasa, dan seni yang tak ternilai.",
+        paragraph:
+            "Mari menelusuri cerita, tradisi, dan warna yang membentuk Nusantara. Setiap pulau memiliki kisahnya sendiri, setiap budaya memiliki keindahannya yang unik.",
+    },
+    en: {
+        eyebrow: "Introduction",
+        title: "Home to Thousands of Cultures",
+        description:
+            "Indonesia is a rich mosaic of civilizations. From Sabang to Merauke, more than 17,000 islands hold invaluable traditions, languages, and arts.",
+        paragraph:
+            "Step into stories, traditions, and colors that shape the archipelago. Each island has its own tale, each culture holds its unique beauty.",
+    },
+};
+---
+
+<section class="intro section bg-batik" id="intro">
+    <div class="container">
+        <!-- Section Header -->
+        <div class="intro__header section-header fade-up">
+            <span
+                class="section-header__eyebrow"
+                data-content-id={content.id.eyebrow}
+                data-content-en={content.en.eyebrow}
+            >
+                {content.id.eyebrow}
+            </span>
+            <h2
+                class="section-header__title"
+                data-content-id={content.id.title}
+                data-content-en={content.en.title}
+            >
+                {content.id.title}
+            </h2>
+        </div>
+
+        <!-- Content Grid -->
+        <div class="intro__content">
+            <!-- Left: Text Content -->
+            <div class="intro__text fade-up">
+                <p
+                    class="intro__description"
+                    data-content-id={content.id.description}
+                    data-content-en={content.en.description}
+                >
+                    {content.id.description}
+                </p>
+                <p
+                    class="intro__paragraph"
+                    data-content-id={content.id.paragraph}
+                    data-content-en={content.en.paragraph}
+                >
+                    {content.id.paragraph}
+                </p>
+            </div>
+
+            <!-- Right: Floating Images -->
+            <div class="intro__images">
+                <div
+                    class="intro__image intro__image--1 parallax-img"
+                    data-speed="0.1"
+                >
+                    <img
+                        src="https://images.unsplash.com/photo-1518930259200-3e5b29f42096?w=400&q=80"
+                        alt="Traditional Dance"
+                        loading="lazy"
+                    />
+                </div>
+                <div
+                    class="intro__image intro__image--2 parallax-img"
+                    data-speed="-0.1"
+                >
+                    <img
+                        src="https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=400&q=80"
+                        alt="Rice Terraces"
+                        loading="lazy"
+                    />
+                </div>
+                <div
+                    class="intro__image intro__image--3 parallax-img"
+                    data-speed="0.15"
+                >
+                    <img
+                        src="https://images.unsplash.com/photo-1552733407-5d5c46c3bb3b?w=400&q=80"
+                        alt="Temple"
+                        loading="lazy"
+                    />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Decorative Wave -->
+    <div class="intro__wave">
+        <svg viewBox="0 0 1440 120" fill="none" preserveAspectRatio="none">
+            <path
+                d="M0,60 C360,120 720,0 1080,60 C1260,90 1380,90 1440,60 L1440,120 L0,120 Z"
+                fill="var(--charcoal)"></path>
+        </svg>
+    </div>
+</section>
+
+<style>
+    .intro {
+        padding-bottom: 0;
+        overflow: hidden;
+    }
+
+    .intro__content {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: var(--space-4xl);
+        align-items: center;
+        margin-bottom: var(--space-4xl);
+    }
+
+    .intro__text {
+        max-width: 540px;
+    }
+
+    .intro__description {
+        font-size: var(--text-xl);
+        font-weight: 500;
+        color: var(--charcoal);
+        line-height: 1.6;
+        margin-bottom: var(--space-lg);
+    }
+
+    .intro__paragraph {
+        font-size: var(--text-base);
+        color: var(--muted-ink);
+        line-height: 1.8;
+    }
+
+    /* Floating Images */
+    .intro__images {
+        position: relative;
+        height: 500px;
+    }
+
+    .intro__image {
+        position: absolute;
+        border-radius: var(--radius-lg);
+        overflow: hidden;
+        box-shadow: var(--shadow-xl);
+        transition: transform var(--transition-slow);
+    }
+
+    .intro__image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform var(--transition-slow);
+    }
+
+    .intro__image:hover img {
+        transform: scale(1.05);
+    }
+
+    .intro__image--1 {
+        width: 280px;
+        height: 320px;
+        top: 0;
+        right: 60px;
+        z-index: 3;
+    }
+
+    .intro__image--2 {
+        width: 220px;
+        height: 280px;
+        top: 120px;
+        right: 280px;
+        z-index: 2;
+    }
+
+    .intro__image--3 {
+        width: 200px;
+        height: 240px;
+        bottom: 0;
+        right: 100px;
+        z-index: 1;
+    }
+
+    /* Highlight Cards */
+    .intro__highlights {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: var(--space-lg);
+        padding-bottom: var(--space-4xl);
+    }
+
+    .highlight-card {
+        text-align: center;
+        padding: var(--space-xl) var(--space-lg);
+        transition: all var(--transition-base);
+    }
+
+    .highlight-card:hover {
+        transform: translateY(-8px) rotateX(5deg);
+        box-shadow: var(--shadow-xl);
+    }
+
+    .highlight-card__icon {
+        display: block;
+        font-size: 2rem;
+        margin-bottom: var(--space-sm);
+    }
+
+    .highlight-card__number {
+        display: block;
+        font-family: var(--font-serif);
+        font-size: var(--text-3xl);
+        font-weight: 700;
+        color: var(--terracotta);
+        margin-bottom: var(--space-xs);
+    }
+
+    .highlight-card__label {
+        font-size: var(--text-sm);
+        color: var(--muted-ink);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
+
+    /* Wave */
+    .intro__wave {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        line-height: 0;
+    }
+
+    .intro__wave svg {
+        width: 100%;
+        height: 80px;
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+        .intro__content {
+            grid-template-columns: 1fr;
+            gap: var(--space-2xl);
+        }
+
+        .intro__images {
+            height: 400px;
+            order: -1;
+        }
+
+        .intro__image--1 {
+            width: 200px;
+            height: 240px;
+            right: 20px;
+        }
+
+        .intro__image--2 {
+            width: 180px;
+            height: 220px;
+            right: 180px;
+        }
+
+        .intro__image--3 {
+            width: 160px;
+            height: 200px;
+            right: 60px;
+        }
+
+        .intro__highlights {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @media (max-width: 480px) {
+        .intro__images {
+            height: 300px;
+        }
+
+        .intro__image--1 {
+            width: 150px;
+            height: 180px;
+            right: 10px;
+            top: 20px;
+        }
+
+        .intro__image--2 {
+            width: 130px;
+            height: 160px;
+            right: 140px;
+            top: 80px;
+        }
+
+        .intro__image--3 {
+            width: 120px;
+            height: 150px;
+            right: 40px;
+            bottom: 20px;
+        }
+
+        .intro__highlights {
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-md);
+        }
+
+        .highlight-card {
+            padding: var(--space-md);
+        }
+
+        .highlight-card__number {
+            font-size: var(--text-2xl);
+        }
+    }
+</style>
+
+<script>
+    import gsap from "gsap";
+    import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Parallax images
+    document.querySelectorAll(".parallax-img").forEach((img) => {
+        const speed = parseFloat((img as HTMLElement).dataset.speed || "0.1");
+
+        gsap.to(img, {
+            y: `${speed * 100}%`,
+            ease: "none",
+            scrollTrigger: {
+                trigger: ".intro",
+                start: "top bottom",
+                end: "bottom top",
+                scrub: 1,
+            },
+        });
+    });
+
+    // 3D tilt effect on highlight cards
+    document.querySelectorAll(".highlight-card").forEach((card) => {
+        card.addEventListener("mousemove", (e: MouseEvent) => {
+            const rect = (card as HTMLElement).getBoundingClientRect();
+            const x = e.clientX - rect.left - rect.width / 2;
+            const y = e.clientY - rect.top - rect.height / 2;
+
+            gsap.to(card, {
+                rotateY: x * 0.05,
+                rotateX: -y * 0.05,
+                duration: 0.3,
+            });
+        });
+
+        card.addEventListener("mouseleave", () => {
+            gsap.to(card, {
+                rotateY: 0,
+                rotateX: 0,
+                duration: 0.3,
+            });
+        });
+    });
+
+    // Language change handler
+    window.addEventListener("langchange", (e: CustomEvent) => {
+        const lang = e.detail.lang;
+
+        document.querySelectorAll("[data-content-id]").forEach((el) => {
+            const contentId = el.getAttribute("data-content-id");
+            const contentEn = el.getAttribute("data-content-en");
+            if (!el.children.length) {
+                el.textContent = lang === "id" ? contentId : contentEn;
+            }
+        });
+    });
+</script>

@@ -1,0 +1,211 @@
+---
+export interface Props {
+    title?: string;
+    description?: string;
+    lang?: string;
+}
+
+const {
+    title = "Explore Nusantara",
+    description = "Temukan kekayaan budaya Indonesia melalui perjalanan visual yang imersif dan interaktif.",
+    lang = "id",
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang={lang}>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="description" content={description} />
+        <meta name="theme-color" content="#C65A3A" />
+
+        <title>{title}</title>
+
+        <!-- Preload Fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    </head>
+    <body class="custom-cursor">
+        <!-- Loading Screen -->
+        <div class="loader" id="loader">
+            <div class="loader__content">
+                <img
+                    src="https://res.cloudinary.com/dmx8hcmxh/image/upload/v1766741471/1_we60wq.webp"
+                    alt="Loading"
+                    class="loader__image"
+                />
+                <div class="loader__bar">
+                    <div class="loader__progress" id="loader-progress"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scroll Progress -->
+        <div class="scroll-progress" id="scroll-progress"></div>
+
+        <!-- Custom Cursor -->
+        <div class="cursor" id="cursor">
+            <div class="cursor__dot" id="cursor-dot"></div>
+        </div>
+        <div class="cursor cursor__follower" id="cursor-follower"></div>
+
+        <slot />
+
+        <style is:global>
+            @import "../styles/global.css";
+        </style>
+
+        <script>
+            import gsap from "gsap";
+            import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+            gsap.registerPlugin(ScrollTrigger);
+
+            // Loading Animation
+            const loader = document.getElementById("loader");
+            const loaderProgress = document.getElementById("loader-progress");
+            const loaderPercent = document.getElementById("loader-percent");
+            let progress = { value: 0 };
+
+            gsap.to(progress, {
+                value: 100,
+                duration: 2.5,
+                ease: "power2.inOut",
+                onUpdate: () => {
+                    const percent = Math.round(progress.value);
+                    if (loaderPercent)
+                        loaderPercent.textContent = `${percent}%`;
+                    if (loaderProgress)
+                        loaderProgress.style.width = `${percent}%`;
+                },
+                onComplete: () => {
+                    gsap.to(loader, {
+                        yPercent: -100,
+                        duration: 0.8,
+                        ease: "power3.inOut",
+                        onComplete: () => {
+                            if (loader) loader.style.display = "none";
+                            document.body.classList.add("loaded");
+                        },
+                    });
+                },
+            });
+
+            // Scroll Progress
+            const scrollProgress = document.getElementById("scroll-progress");
+
+            window.addEventListener("scroll", () => {
+                const scrollTop = window.scrollY;
+                const docHeight =
+                    document.documentElement.scrollHeight - window.innerHeight;
+                const scrollPercent = (scrollTop / docHeight) * 100;
+                scrollProgress.style.width = `${scrollPercent}%`;
+            });
+
+            // Custom Cursor
+            const cursor = document.getElementById("cursor");
+            const cursorDot = document.getElementById("cursor-dot");
+            const cursorFollower = document.getElementById("cursor-follower");
+
+            let mouseX = 0,
+                mouseY = 0;
+            let followerX = 0,
+                followerY = 0;
+
+            document.addEventListener("mousemove", (e) => {
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+
+                gsap.to(cursorDot, {
+                    x: mouseX,
+                    y: mouseY,
+                    duration: 0.1,
+                });
+            });
+
+            // Smooth follower
+            function animateFollower() {
+                followerX += (mouseX - followerX) * 0.15;
+                followerY += (mouseY - followerY) * 0.15;
+
+                gsap.set(cursorFollower, {
+                    x: followerX,
+                    y: followerY,
+                });
+
+                requestAnimationFrame(animateFollower);
+            }
+            animateFollower();
+
+            // Cursor hover effects
+            const interactiveElements = document.querySelectorAll(
+                "a, button, .card, .gallery-item",
+            );
+
+            interactiveElements.forEach((el) => {
+                el.addEventListener("mouseenter", () => {
+                    cursorFollower.classList.add("active");
+                });
+                el.addEventListener("mouseleave", () => {
+                    cursorFollower.classList.remove("active");
+                });
+            });
+
+            // Fade-up animations
+            gsap.utils.toArray(".fade-up").forEach((element: Element) => {
+                gsap.to(element, {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.8,
+                    ease: "power2.out",
+                    scrollTrigger: {
+                        trigger: element,
+                        start: "top 85%",
+                        toggleActions: "play none none reverse",
+                    },
+                });
+            });
+
+            // Stagger animations
+            gsap.utils.toArray(".stagger").forEach((container: Element) => {
+                const children = container.children;
+                gsap.to(children, {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.6,
+                    stagger: 0.1,
+                    ease: "power2.out",
+                    scrollTrigger: {
+                        trigger: container,
+                        start: "top 80%",
+                        toggleActions: "play none none reverse",
+                    },
+                });
+            });
+
+            // Magnetic button effect
+            document.querySelectorAll(".btn--magnetic").forEach((btn) => {
+                btn.addEventListener("mousemove", (e: MouseEvent) => {
+                    const rect = (btn as HTMLElement).getBoundingClientRect();
+                    const x = e.clientX - rect.left - rect.width / 2;
+                    const y = e.clientY - rect.top - rect.height / 2;
+
+                    gsap.to(btn, {
+                        x: x * 0.3,
+                        y: y * 0.3,
+                        duration: 0.3,
+                    });
+                });
+
+                btn.addEventListener("mouseleave", () => {
+                    gsap.to(btn, {
+                        x: 0,
+                        y: 0,
+                        duration: 0.3,
+                    });
+                });
+            });
+        </script>
+    </body>
+</html>

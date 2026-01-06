@@ -1,0 +1,118 @@
+---
+const content = {
+    id: {
+        eyebrow: "Perjalanan Waktu",
+        title: "Sejarah Nusantara",
+        subtitle: "Menelusuri jejak peradaban yang membentuk Indonesia",
+    },
+    en: {
+        eyebrow: "Journey Through Time",
+        title: "History of Nusantara",
+        subtitle:
+            "Tracing the footsteps of civilizations that shaped Indonesia",
+    },
+};
+---
+
+<section
+    class="timeline section section--alt"
+    id="history"
+    style="background-color: var(--charcoal); color: var(--warm-white);"
+>
+    <div class="container">
+        <!-- Section Header -->
+        <div class="section-header fade-up">
+            <span
+                class="section-header__eyebrow"
+                data-content-id={content.id.eyebrow}
+                data-content-en={content.en.eyebrow}
+            >
+                {content.id.eyebrow}
+            </span>
+            <h2
+                class="section-header__title"
+                data-content-id={content.id.title}
+                data-content-en={content.en.title}
+                style="color: var(--warm-white);"
+            >
+                {content.id.title}
+            </h2>
+            <p
+                class="section-header__subtitle"
+                data-content-id={content.id.subtitle}
+                data-content-en={content.en.subtitle}
+                style="color: rgba(255,255,255,0.8);"
+            >
+                {content.id.subtitle}
+            </p>
+        </div>
+
+        <!-- TimelineJS Embed -->
+        <div class="timeline__embed fade-up">
+            <iframe
+                src="https://cdn.knightlab.com/libs/timeline3/latest/embed/index.html?source=v2%3A2PACX-1vRWx87SdRdSS3bfV9UW-JglcrIVDak3muoeo7BcL9yAROx2XHlMC3U5O4HadjekGr0mzvziazSwuR8e&font=Default&lang=en&initial_zoom=2&width=100%25&height=650"
+                width="100%"
+                height="650"
+                allowfullscreen
+                frameborder="0"
+            >
+            </iframe>
+        </div>
+
+        <!-- Decorative Wave -->
+        <div class="timeline__wave">
+            <svg viewBox="0 0 1440 120" fill="none" preserveAspectRatio="none">
+                <path
+                    d="M0,60 C360,120 720,0 1080,60 C1260,90 1380,90 1440,60 L1440,120 L0,120 Z"
+                    fill="var(--warm-white)"></path>
+            </svg>
+        </div>
+    </div>
+</section>
+
+<style>
+    .timeline__embed {
+        width: 100%;
+        height: 650px;
+        border-radius: var(--radius-lg);
+        overflow: hidden;
+        box-shadow: var(--shadow-xl);
+        background-color: var(--warm-white);
+    }
+
+    /* Wave */
+    .timeline__wave {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        line-height: 0;
+        z-index: 1;
+        pointer-events: none;
+    }
+
+    .timeline__wave svg {
+        width: 100%;
+        height: 80px;
+    }
+</style>
+
+<script>
+    import gsap from "gsap";
+    import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Language change handler
+    window.addEventListener("langchange", (e: CustomEvent) => {
+        const lang = e.detail.lang;
+
+        document
+            .querySelectorAll(".timeline [data-content-id]")
+            .forEach((el) => {
+                const contentId = el.getAttribute("data-content-id");
+                const contentEn = el.getAttribute("data-content-en");
+                el.textContent = lang === "id" ? contentId : contentEn;
+            });
+    });
+</script>
