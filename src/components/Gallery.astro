@@ -112,6 +112,49 @@ import { GalleryItems as galleryItems } from "../constant/gallery";
                 ))
             }
         </div>
+
+        <!-- Pagination -->
+        <div class="pagination-container" id="gallery-pagination">
+            <button
+                class="pagination-arrow pagination-prev"
+                id="pagination-prev"
+                aria-label="Previous page"
+            >
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                >
+                    <polyline points="15 18 9 12 15 6"></polyline>
+                </svg>
+            </button>
+            <div class="pagination-numbers" id="pagination-numbers"></div>
+            <button
+                class="pagination-arrow pagination-next"
+                id="pagination-next"
+                aria-label="Next page"
+            >
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                >
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+            </button>
+        </div>
     </div>
 
     <!-- Lightbox -->
@@ -416,6 +459,101 @@ import { GalleryItems as galleryItems } from "../constant/gallery";
             display: none;
         }
     }
+
+    /* New Pagination Styles */
+    .pagination-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 16px;
+        margin-top: 64px;
+    }
+
+    .pagination-arrow {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 44px;
+        height: 44px;
+        background: transparent;
+        border: 1px solid #ffffff;
+        border-radius: 50%;
+        color: #ffffff;
+        cursor: pointer;
+        transition: all 0.25s ease;
+    }
+
+    .pagination-arrow:hover:not(:disabled) {
+        background: #dc2626;
+        border-color: #ffffff;
+    }
+
+    .pagination-arrow:disabled {
+        opacity: 0.3;
+        cursor: not-allowed;
+    }
+
+    .pagination-numbers {
+        display: flex;
+        gap: 8px;
+    }
+
+    @media (max-width: 768px) {
+        .pagination-container {
+            gap: 8px;
+        }
+
+        .pagination-arrow {
+            width: 36px;
+            height: 36px;
+        }
+    }
+</style>
+
+<style is:global>
+    .pagination-num {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        background: transparent;
+        border: 1px solid #ffffff;
+        border-radius: 50%;
+        font-family: inherit;
+        font-size: 14px;
+        font-weight: 500;
+        color: #dc2626;
+        cursor: pointer;
+        transition: all 0.25s ease;
+    }
+
+    .pagination-num:hover {
+        background: rgba(220, 38, 38, 0.2);
+    }
+
+    .pagination-num.active {
+        background: #dc2626;
+        color: #ffffff;
+    }
+
+    .pagination-dots {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        color: #ffffff;
+        font-size: 14px;
+    }
+
+    @media (max-width: 768px) {
+        .pagination-num {
+            width: 32px;
+            height: 32px;
+            font-size: 12px;
+        }
+    }
 </style>
 
 <script>
@@ -428,6 +566,11 @@ import { GalleryItems as galleryItems } from "../constant/gallery";
     const galleryGrid = document.getElementById("gallery-grid");
     const galleryItems = document.querySelectorAll(".gallery-item");
     const filterBtns = document.querySelectorAll(".gallery__filter");
+
+    // Pagination elements
+    const paginationPrev = document.getElementById("pagination-prev");
+    const paginationNext = document.getElementById("pagination-next");
+    const paginationNumbers = document.getElementById("pagination-numbers");
 
     // Lightbox elements
     const lightbox = document.getElementById("lightbox");
@@ -445,32 +588,158 @@ import { GalleryItems as galleryItems } from "../constant/gallery";
     let currentLang = localStorage.getItem("lang") || "id";
     let filteredItems = [...galleryData];
 
-    // Staggered reveal animation
-    gsap.utils
-        .toArray(".gallery-item")
-        .forEach((item: Element, index: number) => {
-            gsap.fromTo(
-                item,
-                {
-                    opacity: 0,
-                    y: 50,
-                    scale: 0.9,
-                },
-                {
-                    opacity: 1,
-                    y: 0,
-                    scale: 1,
-                    duration: 0.6,
-                    delay: index * 0.05,
-                    ease: "power2.out",
-                    scrollTrigger: {
-                        trigger: ".gallery__grid",
-                        start: "top 80%",
-                        toggleActions: "play none none reverse",
-                    },
-                },
+    // Pagination state
+    const ITEMS_PER_PAGE = 8;
+    let currentPage = 1;
+    let totalPages = Math.ceil(filteredItems.length / ITEMS_PER_PAGE);
+
+    // Initialize pagination
+    function updatePagination() {
+        totalPages = Math.ceil(filteredItems.length / ITEMS_PER_PAGE);
+
+        // Ensure currentPage is valid
+        if (currentPage > totalPages) currentPage = totalPages;
+        if (currentPage < 1) currentPage = 1;
+
+        // Update button states
+        if (paginationPrev) {
+            (paginationPrev as HTMLButtonElement).disabled = currentPage === 1;
+        }
+        if (paginationNext) {
+            (paginationNext as HTMLButtonElement).disabled =
+                currentPage === totalPages;
+        }
+
+        // Generate page numbers
+        if (paginationNumbers) {
+            paginationNumbers.innerHTML = "";
+
+            const maxVisiblePages = 5;
+            let startPage = Math.max(
+                1,
+                currentPage - Math.floor(maxVisiblePages / 2),
             );
+            let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+
+            if (endPage - startPage + 1 < maxVisiblePages) {
+                startPage = Math.max(1, endPage - maxVisiblePages + 1);
+            }
+
+            // First page
+            if (startPage > 1) {
+                paginationNumbers.innerHTML += `<button class="pagination-num" data-page="1">1</button>`;
+                if (startPage > 2) {
+                    paginationNumbers.innerHTML += `<span class="pagination-dots">...</span>`;
+                }
+            }
+
+            // Page numbers
+            for (let i = startPage; i <= endPage; i++) {
+                paginationNumbers.innerHTML += `<button class="pagination-num ${i === currentPage ? "active" : ""}" data-page="${i}">${i}</button>`;
+            }
+
+            // Last page
+            if (endPage < totalPages) {
+                if (endPage < totalPages - 1) {
+                    paginationNumbers.innerHTML += `<span class="pagination-dots">...</span>`;
+                }
+                paginationNumbers.innerHTML += `<button class="pagination-num" data-page="${totalPages}">${totalPages}</button>`;
+            }
+
+            // Add click handlers to page numbers
+            paginationNumbers
+                .querySelectorAll(".pagination-num")
+                .forEach((btn) => {
+                    btn.addEventListener("click", () => {
+                        const page = parseInt(
+                            (btn as HTMLElement).dataset.page || "1",
+                        );
+                        goToPage(page);
+                    });
+                });
+        }
+    }
+
+    function displayPage() {
+        const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+        const endIndex = startIndex + ITEMS_PER_PAGE;
+        const currentFilter =
+            document
+                .querySelector(".gallery__filter.active")
+                ?.getAttribute("data-filter") || "all";
+
+        // Show/hide pagination based on filter
+        const paginationContainer =
+            document.getElementById("gallery-pagination");
+        if (paginationContainer) {
+            if (currentFilter === "all") {
+                paginationContainer.style.display = "flex";
+            } else {
+                paginationContainer.style.display = "none";
+            }
+        }
+
+        galleryItems.forEach((item) => {
+            const itemId = parseInt((item as HTMLElement).dataset.id || "0");
+            const category = (item as HTMLElement).dataset.category;
+
+            // Find if this item is in the filtered list
+            const itemIndex = filteredItems.findIndex(
+                (fi: any) => fi.id === itemId,
+            );
+
+            // Check category filter and pagination
+            const matchesFilter =
+                currentFilter === "all" || category === currentFilter;
+
+            // Only apply pagination for "all" filter
+            const inPageRange =
+                currentFilter === "all"
+                    ? itemIndex >= startIndex && itemIndex < endIndex
+                    : true;
+
+            if (matchesFilter && inPageRange) {
+                (item as HTMLElement).classList.remove("hidden");
+                gsap.fromTo(
+                    item,
+                    { opacity: 0, scale: 0.9, y: 20 },
+                    {
+                        opacity: 1,
+                        scale: 1,
+                        y: 0,
+                        duration: 0.4,
+                        ease: "power2.out",
+                    },
+                );
+            } else {
+                (item as HTMLElement).classList.add("hidden");
+            }
         });
+
+        updatePagination();
+    }
+
+    function goToPage(page: number) {
+        if (page < 1 || page > totalPages) return;
+        currentPage = page;
+        displayPage();
+
+        // Scroll to gallery section
+        const gallerySection = document.getElementById("gallery");
+        if (gallerySection) {
+            gallerySection.scrollIntoView({
+                behavior: "smooth",
+                block: "start",
+            });
+        }
+    }
+
+    // Pagination event listeners
+    paginationPrev?.addEventListener("click", () => goToPage(currentPage - 1));
+    paginationNext?.addEventListener("click", () => goToPage(currentPage + 1));
+
+    // Initialize display
+    displayPage();
 
     // Filter functionality
     filterBtns.forEach((btn) => {
@@ -481,21 +750,6 @@ import { GalleryItems as galleryItems } from "../constant/gallery";
             filterBtns.forEach((b) => b.classList.remove("active"));
             btn.classList.add("active");
 
-            // Filter items
-            galleryItems.forEach((item) => {
-                const category = (item as HTMLElement).dataset.category;
-                if (filter === "all" || category === filter) {
-                    (item as HTMLElement).classList.remove("hidden");
-                    gsap.fromTo(
-                        item,
-                        { opacity: 0, scale: 0.9 },
-                        { opacity: 1, scale: 1, duration: 0.3 },
-                    );
-                } else {
-                    (item as HTMLElement).classList.add("hidden");
-                }
-            });
-
             // Update filtered items array
             filteredItems =
                 filter === "all"
@@ -503,6 +757,10 @@ import { GalleryItems as galleryItems } from "../constant/gallery";
                     : galleryData.filter(
                           (item: any) => item.category === filter,
                       );
+
+            // Reset to page 1 and display
+            currentPage = 1;
+            displayPage();
         });
     });
 
