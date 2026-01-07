@@ -144,7 +144,7 @@ const galleryItems = [
 ];
 ---
 
-<section class="gallery section section--alt" id="gallery"> 
+<section class="gallery section section--alt bg-gallery-texture" id="gallery">
     <div class="container">
         <!-- Section Header -->
         <div class="section-header fade-up">
@@ -263,6 +263,28 @@ const galleryItems = [
 </script>
 
 <style>
+    /* Gallery Texture Background */
+    .bg-gallery-texture {
+        position: relative;
+    }
+
+    .bg-gallery-texture::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-image: url("https://res.cloudinary.com/dmx8hcmxh/image/upload/v1767775324/Untitled_design_2_qridiu.png");
+        background-size: 300px;
+        background-repeat: repeat;
+        opacity: 0.08;
+        pointer-events: none;
+        z-index: 0;
+    }
+
+    .bg-gallery-texture > * {
+        position: relative;
+        z-index: 1;
+    }
+
     .gallery {
         overflow: hidden;
         background: linear-gradient(135deg, #dc2626, #991b1b);
