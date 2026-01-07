@@ -14,134 +14,17 @@ const content = {
 
 const categories = [
     { id: "all", labelId: "Semua", labelEn: "All" },
-    { id: "tari", labelId: "Tari", labelEn: "Dance" },
-    { id: "kain", labelId: "Kain", labelEn: "Textiles" },
-    { id: "arsitektur", labelId: "Arsitektur", labelEn: "Architecture" },
-    { id: "kuliner", labelId: "Kuliner", labelEn: "Cuisine" },
+    { id: "budaya", labelId: "Budaya", labelEn: "Culture" },
+    { id: "wisata_alam", labelId: "Wisata Alam", labelEn: "Nature Tourism" },
+    {
+        id: "bangunan_bersejarah",
+        labelId: "Bangunan Bersejarah",
+        labelEn: "Historical Buildings",
+    },
+    { id: "kuliner", labelId: "Kuliner", labelEn: "Culinary" },
 ];
 
-const galleryItems = [
-    {
-        id: 1,
-        category: "tari",
-        titleId: "Tari Legong Bali",
-        titleEn: "Balinese Legong Dance",
-        locationId: "Bali",
-        locationEn: "Bali",
-        image: "https://images.unsplash.com/photo-1518930259200-3e5b29f42096?w=800&q=80",
-        size: "large",
-    },
-    {
-        id: 2,
-        category: "kain",
-        titleId: "Batik Tradisional",
-        titleEn: "Traditional Batik",
-        locationId: "Jawa Tengah",
-        locationEn: "Central Java",
-        image: "https://images.unsplash.com/photo-1558171813-4c088753af8f?w=600&q=80",
-        size: "medium",
-    },
-    {
-        id: 3,
-        category: "arsitektur",
-        titleId: "Rumah Gadang",
-        titleEn: "Rumah Gadang",
-        locationId: "Sumatera Barat",
-        locationEn: "West Sumatra",
-        image: "https://images.unsplash.com/photo-1555899434-94d1368aa7af?w=600&q=80",
-        size: "medium",
-    },
-    {
-        id: 4,
-        category: "kuliner",
-        titleId: "Rendang",
-        titleEn: "Rendang",
-        locationId: "Padang",
-        locationEn: "Padang",
-        image: "https://images.unsplash.com/photo-1562565652-a0d8f0c59eb4?w=600&q=80",
-        size: "small",
-    },
-    {
-        id: 5,
-        category: "tari",
-        titleId: "Tari Saman",
-        titleEn: "Saman Dance",
-        locationId: "Aceh",
-        locationEn: "Aceh",
-        image: "https://images.unsplash.com/photo-1544735716-392fe2489ffa?w=600&q=80",
-        size: "medium",
-    },
-    {
-        id: 6,
-        category: "arsitektur",
-        titleId: "Candi Borobudur",
-        titleEn: "Borobudur Temple",
-        locationId: "Jawa Tengah",
-        locationEn: "Central Java",
-        image: "https://images.unsplash.com/photo-1588668214407-6ea9a6d8c272?w=800&q=80",
-        size: "large",
-    },
-    {
-        id: 7,
-        category: "kain",
-        titleId: "Tenun Ikat",
-        titleEn: "Ikat Weaving",
-        locationId: "NTT",
-        locationEn: "NTT",
-        image: "https://images.unsplash.com/photo-1573408301185-9146fe634ad0?w=600&q=80",
-        size: "small",
-    },
-    {
-        id: 8,
-        category: "kuliner",
-        titleId: "Nasi Gudeg",
-        titleEn: "Gudeg Rice",
-        locationId: "Yogyakarta",
-        locationEn: "Yogyakarta",
-        image: "https://images.unsplash.com/photo-1547424387-0d4c77de03d4?w=600&q=80",
-        size: "medium",
-    },
-    {
-        id: 9,
-        category: "tari",
-        titleId: "Tari Kecak",
-        titleEn: "Kecak Dance",
-        locationId: "Bali",
-        locationEn: "Bali",
-        image: "https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=600&q=80",
-        size: "small",
-    },
-    {
-        id: 10,
-        category: "arsitektur",
-        titleId: "Tongkonan",
-        titleEn: "Tongkonan House",
-        locationId: "Toraja",
-        locationEn: "Toraja",
-        image: "https://images.unsplash.com/photo-1596402184320-417e7178b2cd?w=600&q=80",
-        size: "medium",
-    },
-    {
-        id: 11,
-        category: "kain",
-        titleId: "Songket Palembang",
-        titleEn: "Palembang Songket",
-        locationId: "Sumatera Selatan",
-        locationEn: "South Sumatra",
-        image: "https://images.unsplash.com/photo-1585951237318-9ea5e175b891?w=600&q=80",
-        size: "small",
-    },
-    {
-        id: 12,
-        category: "kuliner",
-        titleId: "Sate Ayam",
-        titleEn: "Chicken Satay",
-        locationId: "Indonesia",
-        locationEn: "Indonesia",
-        image: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=600&q=80",
-        size: "medium",
-    },
-];
+import { GalleryItems as galleryItems } from "../constant/gallery";
 ---
 
 <section class="gallery section section--alt bg-gallery-texture" id="gallery">
@@ -349,7 +232,7 @@ const galleryItems = [
         position: relative;
         border-radius: var(--radius-lg);
         overflow: hidden;
-        cursor: pointer;
+        cursor: default;
         transition: all var(--transition-base);
     }
 
@@ -440,12 +323,14 @@ const galleryItems = [
 
     .gallery-item:hover .gallery-item__caption {
         transform: translateY(0);
+        color: white;
     }
 
     .gallery-item__title {
         font-size: var(--text-lg);
         font-weight: 600;
         margin-bottom: var(--space-xs);
+        color: white;
     }
 
     .gallery-item__location {
@@ -690,15 +575,6 @@ const galleryItems = [
             },
         );
     }
-
-    // Event listeners
-    galleryItems.forEach((item, index) => {
-        item.addEventListener("click", () => {
-            const itemId = parseInt((item as HTMLElement).dataset.id || "0");
-            const idx = filteredItems.findIndex((fi: any) => fi.id === itemId);
-            openLightbox(idx >= 0 ? idx : 0);
-        });
-    });
 
     lightboxClose?.addEventListener("click", closeLightbox);
     lightboxPrev?.addEventListener("click", () => navigateLightbox(-1));
