@@ -95,7 +95,8 @@ const navItems = [
         background-color: white;
         backdrop-filter: blur(12px);
         -webkit-backdrop-filter: blur(12px);
-        border-bottom: 8px solid black;
+        /* border-bottom: 8px solid black; */
+        box-shadow: inset 0 -1px 0 rgba(27, 27, 27, 0.05);
         z-index: 1000;
         transition: all var(--transition-base);
     }
@@ -342,7 +343,7 @@ const navItems = [
     // Language toggle
     const langToggle = document.getElementById("lang-toggle");
     const langOptions = langToggle?.querySelectorAll(".lang-toggle__option");
-    let currentLang = localStorage.getItem("lang") || "id";
+    let currentLang = localStorage.getItem("lang") || "en";
 
     function updateLanguage(lang: string) {
         currentLang = lang;

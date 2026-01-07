@@ -1,10 +1,10 @@
 ---
 const content = {
     id: {
-        eyebrow: "Selamat Datang di",
-        title: "Soul of",
+        eyebrow: "Temukan",
+        title: "Jiwa dari",
         subtitle:
-            "Jelajahi cerita, tradisi, dan warisan yang terjalin di seluruh kepulauan.",
+            "Menjelajahi 17.000 pulau yang kaya akan budaya, tradisi kuno, dan warisan yang hidup.",
         cta: "Mulai Jelajah",
     },
     en: {
@@ -39,7 +39,9 @@ const content = {
                 {content.id.eyebrow}
             </span>
             <h1 class="hero__title">
-                <span class="hero__title-line">{content.id.title}</span>
+                <span class="hero__title-line"
+                data-content-id={content.id.title}
+                data-content-en={content.en.title}>{content.id.title}</span>
                 <span class="hero__title-line hero__title-line--accent"
                     >Nusantara</span
                 >

@@ -353,7 +353,7 @@ const didYouKnow = {
     const knowBtnText = document.getElementById("know-btn-text");
 
     let currentFactIndex = 0;
-    let currentLang = localStorage.getItem("lang") || "id";
+    let currentLang = localStorage.getItem("lang") || "en";
 
     function showFact() {
         const facts = didYouKnowData[currentLang];
