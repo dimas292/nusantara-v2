@@ -287,20 +287,20 @@ const galleryItems = [
 
     .gallery {
         overflow: hidden;
-        background: linear-gradient(135deg, #dc2626, #991b1b);
+        background-color: var(--charcoal);
     }
 
     /* Override section header colors for gallery */
     .gallery .section-header__eyebrow {
-        color: var(--warm-white);
+        color: var(--terracotta);
     }
 
     .gallery .section-header__title {
-        color: black;
+        color: var(--warm-white);
     }
 
     .gallery .section-header__subtitle {
-        color: black;
+        color: rgba(255, 255, 255, 0.8);
     }
 
     /* Filter Tabs */
@@ -315,26 +315,26 @@ const galleryItems = [
     .gallery__filter {
         padding: var(--space-sm) var(--space-lg);
         background-color: rgba(255, 255, 255, 0.1);
-        border: 1px solid black;
+        border: 1px solid rgba(255, 255, 255, 0.3);
         border-radius: var(--radius-2xl);
         font-family: var(--font-sans);
         font-size: var(--text-sm);
         font-weight: 500;
-        color: black;
+        color: var(--warm-white);
         cursor: pointer;
         transition: all var(--transition-base);
     }
 
     .gallery__filter:hover {
-        background-color: black;
-        border-color: black;
-        color: #dc2626;
+        background-color: var(--terracotta);
+        border-color: var(--terracotta);
+        color: var(--warm-white);
     }
 
     .gallery__filter.active {
-        background-color: black;
-        border-color: black;
-        color: #dc2626;
+        background-color: var(--terracotta);
+        border-color: var(--terracotta);
+        color: var(--warm-white);
     }
 
     /* Masonry Grid */
