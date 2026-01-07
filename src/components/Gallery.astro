@@ -144,7 +144,7 @@ const galleryItems = [
 ];
 ---
 
-<section class="gallery section section--alt" id="gallery">
+<section class="gallery section section--alt" id="gallery"> 
     <div class="container">
         <!-- Section Header -->
         <div class="section-header fade-up">
@@ -265,6 +265,20 @@ const galleryItems = [
 <style>
     .gallery {
         overflow: hidden;
+        background: linear-gradient(135deg, #dc2626, #991b1b);
+    }
+
+    /* Override section header colors for gallery */
+    .gallery .section-header__eyebrow {
+        color: var(--warm-white);
+    }
+
+    .gallery .section-header__title {
+        color: black;
+    }
+
+    .gallery .section-header__subtitle {
+        color: black;
     }
 
     /* Filter Tabs */
@@ -278,26 +292,27 @@ const galleryItems = [
 
     .gallery__filter {
         padding: var(--space-sm) var(--space-lg);
-        background-color: transparent;
-        border: 1px solid rgba(27, 27, 27, 0.1);
+        background-color: rgba(255, 255, 255, 0.1);
+        border: 1px solid black;
         border-radius: var(--radius-2xl);
         font-family: var(--font-sans);
         font-size: var(--text-sm);
         font-weight: 500;
-        color: var(--muted-ink);
+        color: black;
         cursor: pointer;
         transition: all var(--transition-base);
     }
 
     .gallery__filter:hover {
-        border-color: var(--terracotta);
-        color: var(--terracotta);
+        background-color: black;
+        border-color: black;
+        color: #dc2626;
     }
 
     .gallery__filter.active {
-        background-color: var(--terracotta);
-        border-color: var(--terracotta);
-        color: var(--warm-white);
+        background-color: black;
+        border-color: black;
+        color: #dc2626;
     }
 
     /* Masonry Grid */
