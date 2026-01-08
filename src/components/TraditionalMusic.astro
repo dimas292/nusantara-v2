@@ -70,11 +70,11 @@ const musicList = [
             </p>
         </div>
 
-        <!-- Music List -->
-        <div class="music__list fade-up">
+        <!-- Music Card -->
+        <div class="music-card fade-up">
             {
                 musicList.map((music, index) => (
-                    <div class="music-item" style={`--item-index: ${index}`}>
+                    <div class="music-item">
                         <span class="music-item__number">{String(index + 1).padStart(2, '0')}</span>
 
                         <!-- Spotify Embed -->
@@ -109,46 +109,32 @@ const musicList = [
         margin-top: var(--space-lg);
     }
 
-    /* Music List */
-    .music__list {
-        display: flex;
-        flex-direction: column;
-        gap: var(--space-2xl);
-        max-width: 800px;
+    /* Music Card - Container */
+    .music-card {
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: var(--radius-xl);
+        padding: var(--space-2xl);
+        box-shadow: var(--shadow-lg);
+        max-width: 1200px;
         margin: 0 auto;
     }
 
-    /* Music Item */
+    /* Music Item - Each row inside card */
     .music-item {
-        background: rgba(255, 255, 255, 0.95);
-        border-radius: var(--radius-xl);
-        padding: var(--space-xl);
-        box-shadow: var(--shadow-lg);
-        transition: all var(--transition-base);
-        animation: fadeInUp 0.6s ease-out forwards;
-        animation-delay: calc(var(--item-index) * 0.1s);
-        opacity: 0;
-        border: 2px solid transparent;
         display: flex;
         align-items: center;
         gap: var(--space-xl);
+        padding: var(--space-lg) 0;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.08);
     }
 
-    @keyframes fadeInUp {
-        from {
-            opacity: 0;
-            transform: translateY(20px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
+    .music-item:last-child {
+        border-bottom: none;
+        padding-bottom: 0;
     }
 
-    .music-item:hover {
-        transform: translateY(-4px);
-        box-shadow: var(--shadow-xl);
-        border-color: var(--terracotta);
+    .music-item:first-child {
+        padding-top: 0;
     }
 
     .music-item__number {
@@ -175,9 +161,18 @@ const musicList = [
     }
 
     /* Responsive */
-    @media (max-width: 900px) {
-        .music__list {
-            gap: var(--space-xl);
+    @media (max-width: 768px) {
+        .music-card {
+            padding: var(--space-xl);
+        }
+
+        .music-item {
+            gap: var(--space-md);
+        }
+
+        .music-item__number {
+            font-size: var(--text-3xl);
+            min-width: 50px;
         }
     }
 
@@ -190,20 +185,20 @@ const musicList = [
             margin-bottom: var(--space-2xl);
         }
 
-        .music__list {
-            gap: var(--space-lg);
+        .music-card {
+            padding: var(--space-lg);
         }
 
         .music-item {
-            padding: var(--space-lg);
             flex-direction: column;
             align-items: flex-start;
             gap: var(--space-md);
+            padding: var(--space-md) 0;
         }
 
         .music-item__number {
-            font-size: var(--text-3xl);
-            min-width: 50px;
+            font-size: var(--text-2xl);
+            min-width: 40px;
         }
     }
 </style>
@@ -214,15 +209,16 @@ const musicList = [
 
     gsap.registerPlugin(ScrollTrigger);
 
-    // Animate items on scroll
-    document.querySelectorAll(".music-item").forEach((item) => {
+    // Animate each music item individually on scroll
+    document.querySelectorAll(".music-item").forEach((item, index) => {
         gsap.from(item, {
             opacity: 0,
             y: 20,
             duration: 0.6,
+            delay: index * 0.1,
             scrollTrigger: {
                 trigger: item,
-                start: "top 85%",
+                start: "top 90%",
                 toggleActions: "play none none none",
             },
         });
