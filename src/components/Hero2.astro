@@ -1,0 +1,613 @@
+---
+// HeroIndonesia.astro
+const currentDate = new Date();
+const formatDate = (date: Date) => date.getDate().toString().padStart(2, "0");
+
+// Logika tanggal yang aman (menghindari angka negatif/lebih dari 31)
+const dates = [-2, -1, 0, 1, 2].map((offset) => {
+    const d = new Date();
+    d.setDate(currentDate.getDate() + offset);
+    return formatDate(d);
+});
+
+const [pastTwo, pastOne, today, nextOne, nextTwo] = dates;
+
+// Content for language switching
+const content = {
+    id: {
+        titleLine1: "JELAJAHI",
+        titleLine2: "NUSANTARA",
+        subtitle: "Jelajahi keindahan dan kekayaan budaya Indonesia",
+        button: "Mulai Menjelajah",
+        footer1:
+            "Indonesia adalah negara tropis di garis khatulistiwa. Tanah ini penuh dengan flora dan fauna yang unik. Negara ini terdiri dari ribuan pulau, puluhan suku bangsa, dan lain-lain.",
+        footer2: "Tanah air alam dimana semua surga dunia ada di sini.",
+        footer3:
+            "Negara terbaik untuk tinggal karena semuanya terjangkau dan murah",
+    },
+    en: {
+        titleLine1: "EXPLORE",
+        titleLine2: "NUSANTARA",
+        subtitle: "Discover the beauty and richness of Indonesian culture",
+        button: "Start Exploring",
+        footer1:
+            "Indonesia is a tropical country in equator line. In this land is full of flora and fauna which you can find any unique things. This country is filled by thousands of island, dozens of ethnics, and etc.",
+        footer2:
+            "Motherland of nature where all of the world's heaven are around here.",
+        footer3:
+            "It's the best country to live cause everything around here is cheap and affordable",
+    },
+};
+---
+
+<section class="hero-indonesia" id="home">
+    <div class="hero-card">
+        <img
+            src="https://res.cloudinary.com/dmx8hcmxh/image/upload/v1767845525/The_Landing_Page_2_qp6bes.svg"
+            alt="Explore Nusantara"
+            class="hero-bg hero-bg-animate"
+        />
+        <div class="hero-overlay"></div>
+
+        <div class="hero-content">
+            <div class="hero-header">
+                <h1 class="hero-title hero-title-animate">
+                    <span
+                        class="title-line"
+                        data-content-id={content.id.titleLine1}
+                        data-content-en={content.en.titleLine1}
+                        >{content.id.titleLine1}</span
+                    >
+                    <span
+                        class="title-line title-accent"
+                        data-content-id={content.id.titleLine2}
+                        data-content-en={content.en.titleLine2}
+                        >{content.id.titleLine2}</span
+                    >
+                </h1>
+                <p
+                    class="hero-subtitle hero-subtitle-animate"
+                    data-content-id={content.id.subtitle}
+                    data-content-en={content.en.subtitle}
+                >
+                    {content.id.subtitle}
+                </p>
+                <button
+                    class="btn-explore btn-explore-animate"
+                    data-content-id={content.id.button}
+                    data-content-en={content.en.button}
+                    >{content.id.button}</button
+                >
+            </div>
+
+            <div class="slider-nav slider-nav-animate">
+                <span class="date-item">{pastTwo}</span>
+                <span class="date-item">{pastOne}</span>
+                <div class="date-item active">
+                    <span class="bold">{today}</span>
+                    <div class="line"></div>
+                </div>
+                <span class="date-item">{nextOne}</span>
+                <span class="date-item">{nextTwo}</span>
+            </div>
+
+            <div class="hero-footer hero-footer-animate">
+                <div class="footer-col">
+                    <p
+                        data-content-id={content.id.footer1}
+                        data-content-en={content.en.footer1}
+                    >
+                        {content.id.footer1}
+                    </p>
+                </div>
+                <div class="footer-col center">
+                    <p
+                        data-content-id={content.id.footer2}
+                        data-content-en={content.en.footer2}
+                    >
+                        {content.id.footer2}
+                    </p>
+                </div>
+                <div class="footer-col right">
+                    <p
+                        data-content-id={content.id.footer3}
+                        data-content-en={content.en.footer3}
+                    >
+                        {content.id.footer3}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    .hero-indonesia {
+        padding: 20px;
+        padding-top: calc(
+            var(--nav-height) + 30px
+        ); /* Account for fixed navbar */
+        max-width: 1600px;
+        margin: 0 auto;
+    }
+
+    .hero-card {
+        position: relative;
+        width: 100%;
+        height: calc(
+            100vh - var(--nav-height) - 40px
+        ); /* Adjust height to fit below navbar */
+        min-height: 600px;
+        border-radius: 40px;
+        overflow: hidden;
+        color: white;
+    }
+
+    .hero-bg {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: 1;
+        transform: scale(1.1);
+    }
+
+    .hero-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+            180deg,
+            rgba(0, 0, 0, 0.4) 0%,
+            rgba(0, 0, 0, 0.2) 50%,
+            rgba(0, 0, 0, 0.5) 100%
+        );
+        z-index: 2;
+    }
+
+    .hero-content {
+        position: relative;
+        z-index: 3;
+        height: 100%;
+        padding: 80px 80px 60px 80px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    /* TYPOGRAPHY */
+    .hero-title {
+        font-size: clamp(3rem, 8vw, 6rem);
+        font-weight: 900;
+        line-height: 0.95;
+        margin: 0 0 20px 0;
+        display: flex;
+        flex-direction: column;
+        color: var(--warm-white);
+    }
+
+    .title-line {
+        display: block;
+        opacity: 0;
+        transform: translateY(50px);
+    }
+
+    .title-accent {
+        color: var(--warm-white);
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .hero-subtitle {
+        font-size: clamp(1rem, 2vw, 1.25rem);
+        font-weight: 400;
+        color: rgba(255, 255, 255, 0.9);
+        margin-bottom: 30px;
+        max-width: 500px;
+        line-height: 1.6;
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    .btn-explore {
+        padding: 16px 36px;
+        border-radius: 12px;
+        border: 2px solid var(--warm-white);
+        background: transparent;
+        color: var(--warm-white);
+        font-weight: 700;
+        font-size: 0.95rem;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        cursor: pointer;
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    /* SLIDER NAV (Paku di kanan) */
+    .slider-nav {
+        position: absolute;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 15px;
+        opacity: 0;
+    }
+
+    .date-item {
+        font-size: 1.2rem;
+        opacity: 0.6;
+        padding-right: 40px;
+        transition: all var(--transition-fast);
+    }
+
+    .date-item:hover {
+        opacity: 1;
+    }
+
+    .date-item.active {
+        opacity: 1;
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        padding-right: 0;
+    }
+
+    .date-item.active .bold {
+        font-size: 2.5rem;
+        font-weight: 800;
+        color: var(--terracotta);
+    }
+
+    .date-item.active .line {
+        width: 120px;
+        height: 2px;
+        background: linear-gradient(90deg, var(--terracotta), transparent);
+    }
+
+    /* FOOTER GRID */
+    .hero-footer {
+        display: grid;
+        grid-template-columns: 1.2fr 1fr 1fr;
+        gap: 40px;
+        align-items: end;
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    .footer-col p {
+        font-size: 0.85rem;
+        line-height: 1.6;
+        margin: 0;
+        color: rgba(255, 255, 255, 0.85);
+    }
+
+    .footer-col.center {
+        text-align: center;
+    }
+    .footer-col.right {
+        text-align: right;
+    }
+
+    /* ==========================================
+       RESPONSIVE DESIGN
+       Desktop: > 1024px (default styles above)
+       Tablet: 768px - 1024px
+       Mobile: < 768px
+       Small Mobile: < 480px
+       ========================================== */
+
+    /* TABLET (768px - 1024px) */
+    @media (max-width: 1024px) {
+        .hero-indonesia {
+            padding: 15px;
+            padding-top: calc(var(--nav-height) + 20px);
+        }
+
+        .hero-card {
+            min-height: 550px;
+            border-radius: 32px;
+        }
+
+        .hero-content {
+            padding: 50px 50px 40px 50px;
+        }
+
+        .hero-title {
+            font-size: clamp(2.5rem, 7vw, 4.5rem);
+        }
+
+        .hero-subtitle {
+            font-size: 1rem;
+            max-width: 400px;
+        }
+
+        .btn-explore {
+            padding: 14px 32px;
+            font-size: 0.9rem;
+        }
+
+        .slider-nav {
+            right: -10px;
+        }
+
+        .date-item {
+            font-size: 1rem;
+            padding-right: 30px;
+        }
+
+        .date-item.active .bold {
+            font-size: 2rem;
+        }
+
+        .date-item.active .line {
+            width: 80px;
+        }
+
+        .hero-footer {
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .footer-col:first-child {
+            grid-column: span 2;
+        }
+
+        .footer-col p {
+            font-size: 0.8rem;
+        }
+    }
+
+    /* MOBILE (< 768px) */
+    @media (max-width: 768px) {
+        .hero-indonesia {
+            padding: 10px;
+            padding-top: calc(var(--nav-height) + 15px);
+        }
+
+        .hero-card {
+            border-radius: 24px;
+            min-height: 500px;
+            height: calc(100vh - var(--nav-height) - 30px);
+        }
+
+        .hero-content {
+            padding: 40px 25px 30px 25px;
+            justify-content: flex-start;
+            gap: 20px;
+        }
+
+        .hero-header {
+            margin-bottom: 0;
+        }
+
+        .hero-title {
+            font-size: clamp(2rem, 10vw, 3.5rem);
+            line-height: 1;
+            margin-bottom: 15px;
+        }
+
+        .hero-subtitle {
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+            max-width: 100%;
+        }
+
+        .btn-explore {
+            padding: 12px 24px;
+            font-size: 0.85rem;
+            width: fit-content;
+        }
+
+        .slider-nav {
+            display: none;
+        }
+
+        .hero-footer {
+            grid-template-columns: 1fr;
+            gap: 15px;
+            margin-top: auto;
+        }
+
+        .footer-col:first-child {
+            grid-column: span 1;
+        }
+
+        .footer-col p {
+            font-size: 0.75rem;
+            line-height: 1.5;
+        }
+
+        .footer-col.center,
+        .footer-col.right {
+            text-align: left;
+        }
+    }
+
+    /* SMALL MOBILE (< 480px) */
+    @media (max-width: 480px) {
+        .hero-indonesia {
+            padding: 8px;
+            padding-top: calc(var(--nav-height) + 10px);
+        }
+
+        .hero-card {
+            border-radius: 20px;
+            min-height: 450px;
+        }
+
+        .hero-content {
+            padding: 30px 20px 25px 20px;
+        }
+
+        .hero-title {
+            font-size: clamp(1.75rem, 12vw, 2.5rem);
+        }
+
+        .hero-subtitle {
+            font-size: 0.85rem;
+            margin-bottom: 18px;
+        }
+
+        .btn-explore {
+            padding: 10px 20px;
+            font-size: 0.8rem;
+            border-width: 1.5px;
+        }
+
+        .hero-footer {
+            gap: 12px;
+        }
+
+        .footer-col p {
+            font-size: 0.7rem;
+        }
+    }
+
+    /* LANDSCAPE MOBILE */
+    @media (max-width: 768px) and (orientation: landscape) {
+        .hero-card {
+            min-height: 400px;
+            height: auto;
+        }
+
+        .hero-content {
+            padding: 30px 40px 25px 40px;
+        }
+
+        .hero-footer {
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 20px;
+        }
+
+        .footer-col:first-child {
+            grid-column: span 1;
+        }
+
+        .footer-col.center {
+            text-align: center;
+        }
+
+        .footer-col.right {
+            text-align: right;
+        }
+    }
+</style>
+
+<script>
+    import gsap from "gsap";
+    import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Wait for page load
+    document.addEventListener("DOMContentLoaded", () => {
+        // Hero entrance animation timeline
+        const heroTl = gsap.timeline({
+            defaults: { ease: "power3.out" },
+        });
+
+        // Background zoom effect
+        heroTl.to(".hero-bg-animate", {
+            scale: 1,
+            duration: 1.5,
+            ease: "power2.out",
+        });
+
+        // Title lines stagger animation
+        heroTl.to(
+            ".title-line",
+            {
+                opacity: 1,
+                y: 0,
+                duration: 1,
+                stagger: 0.2,
+                ease: "power3.out",
+            },
+            "-=1",
+        );
+
+        // Subtitle animation
+        heroTl.to(
+            ".hero-subtitle-animate",
+            {
+                opacity: 1,
+                y: 0,
+                duration: 0.8,
+            },
+            "-=0.5",
+        );
+
+        // Button animation
+        heroTl.to(
+            ".btn-explore-animate",
+            {
+                opacity: 1,
+                y: 0,
+                duration: 0.8,
+            },
+            "-=0.4",
+        );
+
+        // Slider nav animation
+        heroTl.to(
+            ".slider-nav-animate",
+            {
+                opacity: 1,
+                x: 0,
+                duration: 0.8,
+            },
+            "-=0.6",
+        );
+
+        // Footer animation
+        heroTl.to(
+            ".hero-footer-animate",
+            {
+                opacity: 1,
+                y: 0,
+                duration: 0.8,
+            },
+            "-=0.4",
+        );
+
+        // Parallax effect on scroll
+        gsap.to(".hero-bg-animate", {
+            yPercent: 20,
+            ease: "none",
+            scrollTrigger: {
+                trigger: ".hero-indonesia",
+                start: "top top",
+                end: "bottom top",
+                scrub: 1,
+            },
+        });
+
+        // Text parallax on scroll
+        gsap.to(".hero-header", {
+            yPercent: -15,
+            opacity: 0.5,
+            ease: "none",
+            scrollTrigger: {
+                trigger: ".hero-indonesia",
+                start: "top top",
+                end: "bottom top",
+                scrub: 1,
+            },
+        });
+    });
+
+    // Language change handler
+    window.addEventListener("langchange", (e: CustomEvent) => {
+        const lang = e.detail.lang;
+
+        document.querySelectorAll("[data-content-id]").forEach((el) => {
+            const contentId = el.getAttribute("data-content-id");
+            const contentEn = el.getAttribute("data-content-en");
+            if (!el.children.length) {
+                el.textContent = lang === "id" ? contentId : contentEn;
+            }
+        });
+    });
+</script>
