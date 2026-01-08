@@ -571,31 +571,6 @@ const content = {
             },
             "-=0.4",
         );
-
-        // Parallax effect on scroll
-        gsap.to(".hero-bg-animate", {
-            yPercent: 20,
-            ease: "none",
-            scrollTrigger: {
-                trigger: ".hero-indonesia",
-                start: "top top",
-                end: "bottom top",
-                scrub: 1,
-            },
-        });
-
-        // Text parallax on scroll
-        gsap.to(".hero-header", {
-            yPercent: -15,
-            opacity: 0.5,
-            ease: "none",
-            scrollTrigger: {
-                trigger: ".hero-indonesia",
-                start: "top top",
-                end: "bottom top",
-                scrub: 1,
-            },
-        });
     });
 
     // Language change handler
