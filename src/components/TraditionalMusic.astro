@@ -1,0 +1,243 @@
+---
+const content = {
+    id: {
+        eyebrow: "Tunes",
+        title: "Musik Tradisional Indonesia",
+        description:
+            "Dengarkan keindahan musik tradisional dari berbagai daerah di Indonesia.",
+    },
+    en: {
+        eyebrow: "Tunes",
+        title: "Traditional Indonesian Music",
+        description:
+            "Listen to the beauty of traditional music from various regions in Indonesia.",
+    },
+};
+
+const musicList = [
+    {
+        spotifyDataIframe: "https://open.spotify.com/embed/track/10JUVILEVeEkfktkizDnlB?utm_source=generator&theme=0",
+    },
+    {
+        spotifyDataIframe: "https://open.spotify.com/embed/track/1OeNwoBYiKtYB3pH7Z6JOt?utm_source=generator&theme=0",
+    },
+    {
+        spotifyDataIframe: "https://open.spotify.com/embed/track/0qT9JoK7tMG3wJrko2QtI3?utm_source=generator&theme=0",
+    },
+    {
+        
+        spotifyDataIframe: "https://open.spotify.com/embed/track/2UcsTmjCr6bj1oaMaMXG8V?utm_source=generator&theme=0",
+    },
+    {
+        
+        spotifyDataIframe: "https://open.spotify.com/embed/track/6ia7g9aGpMiinRMy1z3ZgT?utm_source=generator&theme=0",
+    },
+    {
+        
+        spotifyDataIframe: "https://open.spotify.com/embed/track/2tkFECDMLbZvJG4G7vQeQy?utm_source=generator&theme=0",
+    },
+    {
+        
+        spotifyDataIframe: "https://open.spotify.com/embed/track/11aCnJscmhzCLVYEAyim5V?utm_source=generator&theme=0",
+    },
+];
+---
+
+<section class="music section bg-batik" id="music">
+    <div class="container">
+        <!-- Section Header -->
+        <div class="music__header section-header fade-up">
+            <span
+                class="section-header__eyebrow"
+                data-content-id="Melodi Nusantara"
+                data-content-en="Nusantara Melodies"
+            >
+                {content.id.eyebrow}
+            </span>
+            <h2
+                class="section-header__title"
+                data-content-id={content.id.title}
+                data-content-en={content.en.title}
+            >
+                {content.id.title}
+            </h2>
+            <p
+                class="music__description"
+                data-content-id={content.id.description}
+                data-content-en={content.en.description}
+            >
+                {content.id.description}
+            </p>
+        </div>
+
+        <!-- Music List -->
+        <div class="music__list fade-up">
+            {
+                musicList.map((music, index) => (
+                    <div class="music-item" style={`--item-index: ${index}`}>
+                        <span class="music-item__number">{String(index + 1).padStart(2, '0')}</span>
+
+                        <!-- Spotify Embed -->
+                        <div class="music-item__player">
+                          <iframe data-testid="embed-iframe" style="border-radius:12px" src={music.spotifyDataIframe} width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                        </div>
+                    </div>
+                ))
+            }
+        </div>
+    </div>
+</section>
+
+<style>
+    .music {
+        padding: var(--space-4xl) 0;
+        overflow: hidden;
+    }
+
+    .music__header {
+        text-align: center;
+        margin-bottom: var(--space-4xl);
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .music__description {
+        font-size: var(--text-lg);
+        color: var(--muted-ink);
+        line-height: 1.8;
+        margin-top: var(--space-lg);
+    }
+
+    /* Music List */
+    .music__list {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-2xl);
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    /* Music Item */
+    .music-item {
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: var(--radius-xl);
+        padding: var(--space-xl);
+        box-shadow: var(--shadow-lg);
+        transition: all var(--transition-base);
+        animation: fadeInUp 0.6s ease-out forwards;
+        animation-delay: calc(var(--item-index) * 0.1s);
+        opacity: 0;
+        border: 2px solid transparent;
+        display: flex;
+        align-items: center;
+        gap: var(--space-xl);
+    }
+
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .music-item:hover {
+        transform: translateY(-4px);
+        box-shadow: var(--shadow-xl);
+        border-color: var(--terracotta);
+    }
+
+    .music-item__number {
+        font-family: var(--font-serif);
+        font-size: var(--text-4xl);
+        font-weight: 700;
+        color: var(--terracotta);
+        line-height: 1;
+        min-width: 60px;
+        flex-shrink: 0;
+    }
+
+    /* Spotify Player */
+    .music-item__player {
+        border-radius: var(--radius-lg);
+        overflow: hidden;
+        background: #f5f5f5;
+        flex: 1;
+    }
+
+    .spotify-embed {
+        border: none;
+        border-radius: var(--radius-lg);
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+        .music__list {
+            gap: var(--space-xl);
+        }
+    }
+
+    @media (max-width: 480px) {
+        .music {
+            padding: var(--space-2xl) 0;
+        }
+
+        .music__header {
+            margin-bottom: var(--space-2xl);
+        }
+
+        .music__list {
+            gap: var(--space-lg);
+        }
+
+        .music-item {
+            padding: var(--space-lg);
+            flex-direction: column;
+            align-items: flex-start;
+            gap: var(--space-md);
+        }
+
+        .music-item__number {
+            font-size: var(--text-3xl);
+            min-width: 50px;
+        }
+    }
+</style>
+
+<script>
+    import gsap from "gsap";
+    import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Animate items on scroll
+    document.querySelectorAll(".music-item").forEach((item) => {
+        gsap.from(item, {
+            opacity: 0,
+            y: 20,
+            duration: 0.6,
+            scrollTrigger: {
+                trigger: item,
+                start: "top 85%",
+                toggleActions: "play none none none",
+            },
+        });
+    });
+
+    // Language change handler
+    window.addEventListener("langchange", (e: CustomEvent) => {
+        const lang = e.detail.lang;
+
+        document.querySelectorAll("[data-content-id]").forEach((el) => {
+            const contentId = el.getAttribute("data-content-id");
+            const contentEn = el.getAttribute("data-content-en");
+            if (!el.children.length) {
+                el.textContent = lang === "id" ? contentId : contentEn;
+            }
+        });
+    });
+</script>
