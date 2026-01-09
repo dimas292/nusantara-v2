@@ -1,16 +1,5 @@
 ---
 // HeroIndonesia.astro
-const currentDate = new Date();
-const formatDate = (date: Date) => date.getDate().toString().padStart(2, "0");
-
-// Logika tanggal yang aman (menghindari angka negatif/lebih dari 31)
-const dates = [-2, -1, 0, 1, 2].map((offset) => {
-    const d = new Date();
-    d.setDate(currentDate.getDate() + offset);
-    return formatDate(d);
-});
-
-const [pastTwo, pastOne, today, nextOne, nextTwo] = dates;
 
 // Content for language switching
 const content = {
@@ -81,14 +70,14 @@ const content = {
             </div>
 
             <div class="slider-nav slider-nav-animate">
-                <span class="date-item">{pastTwo}</span>
-                <span class="date-item">{pastOne}</span>
+                <span class="date-item" id="date-past-2">--</span>
+                <span class="date-item" id="date-past-1">--</span>
                 <div class="date-item active">
-                    <span class="bold">{today}</span>
+                    <span class="bold" id="date-today">--</span>
                     <div class="line"></div>
                 </div>
-                <span class="date-item">{nextOne}</span>
-                <span class="date-item">{nextTwo}</span>
+                <span class="date-item" id="date-next-1">--</span>
+                <span class="date-item" id="date-next-2">--</span>
             </div>
 
             <div class="hero-footer hero-footer-animate">
@@ -503,6 +492,26 @@ const content = {
 
     // Wait for page load
     document.addEventListener("DOMContentLoaded", () => {
+        // Date Logic - Realtime
+        const currentDate = new Date();
+        const formatDate = (date: Date) =>
+            date.getDate().toString().padStart(2, "0");
+
+        const offsets = [
+            { id: "date-past-2", offset: -2 },
+            { id: "date-past-1", offset: -1 },
+            { id: "date-today", offset: 0 },
+            { id: "date-next-1", offset: 1 },
+            { id: "date-next-2", offset: 2 },
+        ];
+
+        offsets.forEach(({ id, offset }) => {
+            const d = new Date(currentDate);
+            d.setDate(currentDate.getDate() + offset);
+            const el = document.getElementById(id);
+            if (el) el.textContent = formatDate(d);
+        });
+
         // Hero entrance animation timeline
         const heroTl = gsap.timeline({
             defaults: { ease: "power3.out" },
