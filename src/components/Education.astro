@@ -1,94 +1,4 @@
 ---
-const content = {
-    id: {
-        eyebrow: "Pengetahuan",
-        title: "Mengenal Lebih Dalam",
-        subtitle:
-            "Pelajari berbagai aspek budaya Indonesia yang kaya dan beragam",
-    },
-    en: {
-        eyebrow: "Knowledge",
-        title: "Deeper Understanding",
-        subtitle:
-            "Learn about the rich and diverse aspects of Indonesian culture",
-    },
-};
-
-const categories = [
-    {
-        id: "tradisi",
-        icon: "🙏",
-        titleId: "Tradisi & Ritual",
-        titleEn: "Traditions & Rituals",
-        descId: "Indonesia memiliki ratusan upacara adat yang masih dilestarikan. Dari ritual kelahiran hingga kematian, setiap momen kehidupan diiringi tradisi yang bermakna.",
-        descEn: "Indonesia has hundreds of traditional ceremonies still preserved. From birth to death rituals, every moment of life is accompanied by meaningful traditions.",
-        facts: [
-            {
-                id: "Upacara Rambu Solo di Toraja bisa berlangsung hingga satu minggu",
-                en: "Rambu Solo ceremony in Toraja can last up to a week",
-            },
-            {
-                id: "Sekaten di Yogyakarta merayakan Maulid Nabi dengan gamelan sakral",
-                en: "Sekaten in Yogyakarta celebrates Prophet's birthday with sacred gamelan",
-            },
-        ],
-    },
-    {
-        id: "seni",
-        icon: "🎭",
-        titleId: "Seni & Kerajinan",
-        titleEn: "Arts & Crafts",
-        descId: "Warisan seni rupa Indonesia mencakup ukiran kayu, tenun, batik, dan keramik. Setiap daerah memiliki kekhasan dan teknik yang diturunkan antar generasi.",
-        descEn: "Indonesia's visual art heritage includes wood carving, weaving, batik, and ceramics. Each region has its own uniqueness and techniques passed down through generations.",
-        facts: [
-            {
-                id: "Batik diakui UNESCO sebagai Warisan Budaya Tak Benda sejak 2009",
-                en: "Batik recognized by UNESCO as Intangible Cultural Heritage since 2009",
-            },
-            {
-                id: "Ukiran Asmat Papua dianggap sebagai salah satu seni primitif terbaik dunia",
-                en: "Asmat carvings are considered among the world's finest primitive art",
-            },
-        ],
-    },
-    {
-        id: "bahasa",
-        icon: "💬",
-        titleId: "Bahasa & Identitas",
-        titleEn: "Language & Identity",
-        descId: "Dengan lebih dari 700 bahasa daerah, Indonesia adalah salah satu negara dengan keragaman linguistik tertinggi. Bahasa Indonesia menyatukan semua keragaman ini.",
-        descEn: "With over 700 regional languages, Indonesia is one of the most linguistically diverse countries. Indonesian language unites all this diversity.",
-        facts: [
-            {
-                id: "Bahasa Jawa memiliki 3 tingkatan: Ngoko, Madya, dan Krama",
-                en: "Javanese has 3 levels: Ngoko, Madya, and Krama",
-            },
-            {
-                id: "Papua memiliki sekitar 270 bahasa berbeda",
-                en: "Papua has approximately 270 different languages",
-            },
-        ],
-    },
-    {
-        id: "warisan",
-        icon: "🏛️",
-        titleId: "Warisan & Pelestarian",
-        titleEn: "Heritage & Preservation",
-        descId: "Upaya pelestarian budaya terus dilakukan melalui pendidikan, museum, dan festival. Generasi muda berperan penting dalam menjaga warisan leluhur.",
-        descEn: "Cultural preservation efforts continue through education, museums, and festivals. Young generation plays an important role in maintaining ancestral heritage.",
-        facts: [
-            {
-                id: "Indonesia memiliki 9 situs Warisan Dunia UNESCO",
-                en: "Indonesia has 9 UNESCO World Heritage Sites",
-            },
-            {
-                id: "Festival budaya diadakan di berbagai daerah sepanjang tahun",
-                en: "Cultural festivals are held in various regions throughout the year",
-            },
-        ],
-    },
-];
-
 const didYouKnow = {
     id: [
         "Gamelan Jawa menggunakan sistem nada pentatonik yang berbeda dari musik Barat",
@@ -105,89 +15,16 @@ const didYouKnow = {
 
 <section class="education section" id="education">
     <div class="container">
-        <!-- Section Header -->
-        <div class="section-header fade-up">
-            <span
-                class="section-header__eyebrow"
-                data-content-id={content.id.eyebrow}
-                data-content-en={content.en.eyebrow}
-            >
-                {content.id.eyebrow}
-            </span>
-            <h2
-                class="section-header__title"
-                data-content-id={content.id.title}
-                data-content-en={content.en.title}
-            >
-                {content.id.title}
-            </h2>
-            <p
-                class="section-header__subtitle"
-                data-content-id={content.id.subtitle}
-                data-content-en={content.en.subtitle}
-            >
-                {content.id.subtitle}
-            </p>
-        </div>
-
-        <!-- Education Grid -->
-        <div class="education__grid stagger">
-            {
-                categories.map((cat) => (
-                    <div class="education__card card">
-                        <div class="education__card-header">
-                            <span class="education__icon">{cat.icon}</span>
-                            <h3
-                                class="education__title"
-                                data-content-id={cat.titleId}
-                                data-content-en={cat.titleEn}
-                            >
-                                {cat.titleId}
-                            </h3>
-                        </div>
-                        <p
-                            class="education__desc"
-                            data-content-id={cat.descId}
-                            data-content-en={cat.descEn}
-                        >
-                            {cat.descId}
-                        </p>
-                        <div class="education__facts">
-                            {cat.facts.map((fact) => (
-                                <div class="education__fact">
-                                    <span class="education__fact-icon">💡</span>
-                                    <span
-                                        class="education__fact-text"
-                                        data-content-id={fact.id}
-                                        data-content-en={fact.en}
-                                    >
-                                        {fact.id}
-                                    </span>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                ))
-            }
-        </div>
-
         <!-- Did You Know Section -->
         <div class="education__know fade-up">
             <div class="education__know-header">
-                <span class="education__know-icon">🤔</span>
+                <span class="education__know-icon"></span>
                 <h3 class="education__know-title" id="know-title">
                     Tahukah Kamu?
                 </h3>
             </div>
             <div class="education__know-content" id="know-content">
                 <p class="education__know-text" id="know-text"></p>
-                <button
-                    class="education__know-btn btn btn--outline btn--magnetic"
-                    id="know-btn"
-                >
-                    <span id="know-btn-text">Fakta Lainnya</span>
-                    <span>→</span>
-                </button>
             </div>
         </div>
     </div>
@@ -200,98 +37,23 @@ const didYouKnow = {
 
 <style>
     .education {
-        background-color: var(--warm-white);
+        background-color: var(--charcoal);
+        color: var(--warm-white);
     }
 
-    .education__grid {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: var(--space-xl);
-        margin-bottom: var(--space-4xl);
+    /* Did You Know - simplified for standalone */
+    .education__know {
+        background: transparent;
+        padding: var(--space-xl) 0;
+        max-width: 800px;
+        margin: 0 auto;
     }
 
-    .education__card {
-        position: relative;
-        overflow: hidden;
-        transition: all var(--transition-base);
-    }
-
-    .education__card::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 4px;
-        height: 100%;
-        background: linear-gradient(
-            180deg,
-            var(--terracotta),
-            var(--deep-teal)
-        );
-        opacity: 0;
-        transition: opacity var(--transition-base);
-    }
-
-    .education__card:hover::before {
-        opacity: 1;
-    }
-
-    .education__card:hover {
-        transform: translateY(-8px);
-        box-shadow: var(--shadow-xl);
-    }
-
-    .education__card-header {
-        display: flex;
-        align-items: center;
-        gap: var(--space-md);
-        margin-bottom: var(--space-md);
-    }
-
-    .education__icon {
-        font-size: 2rem;
-    }
-
-    .education__title {
-        font-size: var(--text-xl);
-        margin: 0;
-    }
-
-    .education__desc {
-        font-size: var(--text-base);
-        color: var(--muted-ink);
-        line-height: 1.7;
-        margin-bottom: var(--space-lg);
-    }
-
-    .education__facts {
+    .education__know-content {
         display: flex;
         flex-direction: column;
-        gap: var(--space-sm);
-    }
-
-    .education__fact {
-        display: flex;
-        align-items: flex-start;
-        gap: var(--space-sm);
-        padding: var(--space-sm) var(--space-md);
-        background-color: var(--soft-sand);
-        border-radius: var(--radius-md);
-        font-size: var(--text-sm);
-        color: var(--muted-ink);
-    }
-
-    .education__fact-icon {
-        flex-shrink: 0;
-    }
-
-    /* Did You Know */
-    .education__know {
-        background: linear-gradient(135deg, var(--charcoal) 0%, #2a2a2a 100%);
-        border-radius: var(--radius-xl);
-        padding: var(--space-3xl);
-        color: var(--warm-white);
-        text-align: center;
+        align-items: center;
+        gap: var(--space-lg);
     }
 
     .education__know-header {
@@ -316,9 +78,8 @@ const didYouKnow = {
         font-size: var(--text-lg);
         line-height: 1.8;
         color: rgba(250, 247, 242, 0.9);
-        max-width: 700px;
-        margin: 0 auto var(--space-xl);
         min-height: 60px;
+        text-align: center;
     }
 
     .education__know-btn {
@@ -330,17 +91,6 @@ const didYouKnow = {
         background-color: var(--terracotta);
         border-color: var(--terracotta);
     }
-
-    /* Responsive */
-    @media (max-width: 768px) {
-        .education__grid {
-            grid-template-columns: 1fr;
-        }
-
-        .education__know {
-            padding: var(--space-2xl);
-        }
-    }
 </style>
 
 <script>
@@ -348,7 +98,6 @@ const didYouKnow = {
 
     const didYouKnowData = (window as any).didYouKnowData;
     const knowText = document.getElementById("know-text");
-    const knowBtn = document.getElementById("know-btn");
     const knowTitle = document.getElementById("know-title");
     const knowBtnText = document.getElementById("know-btn-text");
 
@@ -383,8 +132,7 @@ const didYouKnow = {
     // Initialize
     showFact();
 
-    // Button click
-    knowBtn?.addEventListener("click", nextFact);
+
 
     // Auto rotate every 8 seconds
     setInterval(nextFact, 8000);
@@ -404,14 +152,5 @@ const didYouKnow = {
             knowBtnText.textContent =
                 currentLang === "id" ? "Fakta Lainnya" : "Another Fact";
         }
-
-        // Update all content elements
-        document
-            .querySelectorAll(".education [data-content-id]")
-            .forEach((el) => {
-                const contentId = el.getAttribute("data-content-id");
-                const contentEn = el.getAttribute("data-content-en");
-                el.textContent = currentLang === "id" ? contentId : contentEn;
-            });
     });
 </script>

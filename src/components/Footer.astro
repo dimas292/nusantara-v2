@@ -1,4 +1,6 @@
 ---
+import { Instagram, Linkedin, Mail, MapPin } from "lucide-astro";
+
 const currentYear = new Date().getFullYear();
 
 const links = [
@@ -11,9 +13,17 @@ const links = [
 ];
 
 const socials = [
-    { name: "Instagram", icon: "📷", url: "#" },
-    { name: "Twitter", icon: "🐦", url: "#" },
-    { name: "YouTube", icon: "▶️", url: "#" },
+    {
+        name: "Instagram",
+        icon: Instagram,
+        url: "https://www.instagram.com/dimass.dev/",
+    },
+    { name: "Email", icon: Mail, url: "mailto:dimasixc22@gmail.com" },
+    {
+        name: "LinkedIn",
+        icon: Linkedin,
+        url: "https://www.linkedin.com/in/dimas-b7041b27b/",
+    },
 ];
 ---
 
@@ -36,7 +46,7 @@ const socials = [
                                 class="footer__social"
                                 aria-label={social.name}
                             >
-                                <span>{social.icon}</span>
+                                <social.icon size={20} />
                             </a>
                         ))
                     }
@@ -71,18 +81,19 @@ const socials = [
                 <h4 class="footer__nav-title" id="footer-contact-title">
                     Kontak
                 </h4>
-                <p class="footer__contact-item">📧 hello@nusantara.id</p>
-                <p class="footer__contact-item">📍 Jakarta, Indonesia</p>
+                <p class="footer__contact-item">
+                    <Mail size={16} class="footer__icon" />
+                    <span>dimasixc22@gmail.com</span>
+                </p>
+                <p class="footer__contact-item">
+                    <MapPin size={16} class="footer__icon" />
+                    <span>Jakarta, Indonesia</span>
+                </p>
             </div>
         </div>
 
         <!-- Bottom -->
         <div class="footer__bottom">
-            <p class="footer__copyright">
-                © {currentYear} Explore Nusantara. <span id="footer-rights"
-                    >Hak Cipta Dilindungi.</span
-                >
-            </p>
             <p class="footer__credits" id="footer-credits">
                 Dibuat dengan ❤️ untuk melestarikan budaya Indonesia
             </p>
@@ -146,11 +157,6 @@ const socials = [
         transition: all var(--transition-fast);
     }
 
-    .footer__social:hover {
-        background-color: var(--terracotta);
-        transform: translateY(-2px);
-    }
-
     /* Navigation */
     .footer__nav-title {
         font-family: var(--font-sans);
@@ -184,6 +190,9 @@ const socials = [
         font-size: var(--text-sm);
         color: rgba(250, 247, 242, 0.7);
         margin-bottom: var(--space-sm);
+        display: flex;
+        align-items: center;
+        gap: var(--space-xs);
     }
 
     /* Bottom */

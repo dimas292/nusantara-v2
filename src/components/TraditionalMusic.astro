@@ -74,16 +74,31 @@ const musicList = [
         <div class="music-card">
             {
                 musicList.map((music, index) => (
-                    <div class="music-item fade-up" style={`--item-index: ${index}`}>
+                    <div class={`music-item fade-up ${index >= 5 ? 'music-item--hidden' : ''}`} style={`--item-index: ${index}`}>
                         <span class="music-item__number">{String(index + 1).padStart(2, '0')}</span>
 
                         <!-- Spotify Embed -->
                         <div class="music-item__player">
-                          <iframe data-testid="embed-iframe" style="border-radius:12px" src={music.spotifyDataIframe} width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                          <iframe data-testid="embed-iframe" style="border-radius:12px" src={music.spotifyDataIframe} width="100%" height="80" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
                         </div>
                     </div>
                 ))
             }
+        </div>
+
+        <!-- Music Footer -->
+        <div class="music__footer fade-up">
+            <button 
+                id="music-toggle-btn"
+                class="music__more-link"
+                data-state="collapsed"
+            >
+                <span class="music__more-text" data-text-id="Lebih banyak" data-text-en="Show More">Lebih banyak</span>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+            </button>
         </div>
     </div>
 </section>
@@ -92,6 +107,41 @@ const musicList = [
     .music {
         padding: var(--space-4xl) 0;
         overflow: hidden;
+    }
+
+    .music__footer {
+        margin-top: var(--space-xl);
+        text-align: right;
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    .music__more-link {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--space-xs);
+        font-family: var(--font-sans);
+        font-size: var(--text-base);
+        font-weight: 500;
+        color: var(--terracotta);
+        text-decoration: none;
+        transition: color 0.3s ease;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0;
+    }
+
+    .music__more-link:hover {
+        color: var(--charcoal);
+    }
+
+    .music__more-link svg {
+        transition: transform 0.3s ease;
+    }
+
+    .music__more-link[data-state="expanded"] svg {
+        transform: rotate(180deg);
     }
 
     .music__header {
@@ -111,10 +161,7 @@ const musicList = [
 
     /* Music Card - Container */
     .music-card {
-        background: rgba(255, 255, 255, 0.95);
-        border-radius: var(--radius-xl);
-        padding: var(--space-2xl);
-        box-shadow: var(--shadow-lg);
+        background: transparent;
         max-width: 1200px;
         margin: 0 auto;
     }
@@ -123,25 +170,32 @@ const musicList = [
     .music-item {
         display: flex;
         align-items: center;
-        gap: var(--space-xl);
-        padding: var(--space-lg) 0;
-        border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+        gap: var(--space-md);
+        padding: var(--space-xs) 0;
+        border-bottom: none;
         /* Initial state for animation */
         opacity: 0;
         transform: translateY(30px);
         will-change: opacity, transform;
         transition: opacity 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
                     transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        transition-delay: calc(var(--item-index, 0) * 0.15s);
     }
 
-    .music-item.is-visible {
+    .music-item.music-item--hidden {
+        display: none;
+    }
+
+    .music-card.is-visible .music-item:not(.music-item--hidden) {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .music-card.is-visible .music-item.is-revealed {
         opacity: 1;
         transform: translateY(0);
     }
 
     .music-item:last-child {
-        border-bottom: none;
         padding-bottom: 0;
     }
 
@@ -151,11 +205,11 @@ const musicList = [
 
     .music-item__number {
         font-family: var(--font-serif);
-        font-size: var(--text-4xl);
+        font-size: var(--text-2xl);
         font-weight: 700;
-        color: var(--terracotta);
+        color: #000000;
         line-height: 1;
-        min-width: 60px;
+        min-width: 40px;
         flex-shrink: 0;
     }
 
@@ -183,8 +237,8 @@ const musicList = [
         }
 
         .music-item__number {
-            font-size: var(--text-3xl);
-            min-width: 50px;
+            font-size: var(--text-xl);
+            min-width: 30px;
         }
     }
 
@@ -202,23 +256,23 @@ const musicList = [
         }
 
         .music-item {
-            flex-direction: column;
-            align-items: flex-start;
+            flex-direction: row;
+            align-items: center;
             gap: var(--space-md);
             padding: var(--space-md) 0;
         }
 
         .music-item__number {
-            font-size: var(--text-2xl);
-            min-width: 40px;
+            font-size: var(--text-lg);
+            min-width: 25px;
         }
     }
 </style>
 
 <script>
-    // IntersectionObserver for fade-in animation per item
+    // IntersectionObserver for fade-in animation
     const observerOptions = {
-        threshold: 0,
+        threshold: 0.1,
         rootMargin: "0px 0px -50px 0px"
     };
 
@@ -231,20 +285,65 @@ const musicList = [
         });
     }, observerOptions);
 
-    document.querySelectorAll(".music-item").forEach((item) => {
-        observer.observe(item);
+    const musicCard = document.querySelector(".music-card");
+    if (musicCard) {
+        observer.observe(musicCard);
+    }
+
+    // Toggle Functionality
+    const toggleBtn = document.getElementById("music-toggle-btn");
+    const hiddenItems = document.querySelectorAll(".music-item--hidden");
+    const textSpan = toggleBtn?.querySelector(".music__more-text");
+
+    toggleBtn?.addEventListener("click", () => {
+        const isCollapsed = toggleBtn.getAttribute("data-state") === "collapsed";
+        const newState = isCollapsed ? "expanded" : "collapsed";
+        
+        toggleBtn.setAttribute("data-state", newState);
+        
+        // Toggle visibility
+        hiddenItems.forEach(item => {
+            if (isCollapsed) {
+                item.classList.remove("music-item--hidden");
+                // Small delay to allow display block to apply before transition
+                setTimeout(() => item.classList.add("is-revealed"), 50);
+            } else {
+                item.classList.remove("is-revealed");
+                item.classList.add("music-item--hidden");
+            }
+        });
+
+        // Update Text
+        const currentLang = localStorage.getItem("lang") || "en";
+        updateButtonText(currentLang, newState);
     });
+
+    function updateButtonText(lang: string, state: string) {
+        if (!textSpan) return;
+        
+        if (state === "collapsed") {
+            textSpan.textContent = lang === 'id' ? "Lebih banyak" : "Show More";
+        } else {
+            textSpan.textContent = lang === 'id' ? "Tampilkan lebih sedikit" : "Show Less";
+        }
+    }
 
     // Language change handler
     window.addEventListener("langchange", (e: CustomEvent) => {
         const lang = e.detail.lang;
 
+        // Update standard content
         document.querySelectorAll("[data-content-id]").forEach((el) => {
             const contentId = el.getAttribute("data-content-id");
             const contentEn = el.getAttribute("data-content-en");
-            if (!el.children.length) {
+            // Only update if it doesn't have children (pure text nodes) or specific logic handling children
+            if (!el.children.length && contentId && contentEn) {
                 el.textContent = lang === "id" ? contentId : contentEn;
             }
         });
+
+        // Update button text state awareness
+        const currentState = toggleBtn?.getAttribute("data-state") || "collapsed";
+        updateButtonText(lang, currentState);
     });
 </script>

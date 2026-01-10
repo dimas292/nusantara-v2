@@ -7,13 +7,13 @@ const content = {
         eyebrow: "Jelajahi",
         title: "Peta Budaya Indonesia",
         subtitle:
-            "Klik pada region untuk menemukan kekayaan budaya setiap wilayah",
+            "<span class='text-red'>Arahkan kursor</span> ke wilayah untuk melihat informasi singkat",
     },
     en: {
         eyebrow: "Explore",
         title: "Indonesia Cultural Map",
         subtitle:
-            "Click on a region to discover the cultural richness of each area",
+            "<span class='text-red'>Hover over</span> a region to view brief information",
     },
 };
 ---
@@ -38,9 +38,8 @@ const content = {
             class="section-header__subtitle"
             data-content-id={content.id.subtitle}
             data-content-en={content.en.subtitle}
-        >
-            {content.id.subtitle}
-        </p>
+            set:html={content.id.subtitle}
+        />
     </div>
 
     <svg
@@ -434,6 +433,19 @@ const content = {
             }
         });
     });
+
+    // Language change handler
+    window.addEventListener("langchange", (e: CustomEvent) => {
+        const lang = e.detail.lang;
+        document.querySelectorAll("[data-content-id]").forEach((el) => {
+            const contentId = el.getAttribute("data-content-id");
+            const contentEn = el.getAttribute("data-content-en");
+            // Use innerHTML instead of textContent to preserve formatting like <span class='text-red'>
+            if (contentId && contentEn) {
+                el.innerHTML = lang === "id" ? contentId : contentEn;
+            }
+        });
+    });
 </script>
 
 <style>
@@ -445,7 +457,7 @@ const content = {
     .map-section {
         width: 100%;
         padding: 3rem 0;
-        background: linear-gradient(to bottom right, #f9fafb, #ffffff, #fef2f2);
+        background-color: #ffffff;
     }
 
     /* Header */
@@ -455,6 +467,10 @@ const content = {
         padding: 0 1rem;
         text-align: center;
         margin-bottom: 1.5rem;
+    }
+
+    .section-header__subtitle {
+        font-style: italic;
     }
 
     .map-title {
