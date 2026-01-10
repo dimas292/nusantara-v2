@@ -317,7 +317,7 @@ a:hover {
    ========================================= */
 .section-header {
   text-align: center;
-  margin-bottom: var(--space-4xl);
+  margin-bottom: var(--space-3xl);
 }
 
 .section-header__eyebrow {

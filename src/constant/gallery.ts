@@ -7,7 +7,7 @@ export const GalleryItems = [
         locationId: "Jawa Timur",
         locationEn: "East Java",
         image: "https://res.cloudinary.com/dmx8hcmxh/image/upload/v1767782776/Gunung_Bromo_Provinsi_Jawa_Timur_ft9wwk.jpg",
-        size: "large",
+        size: "small",
     },
     {
         id: 2,
@@ -67,7 +67,7 @@ export const GalleryItems = [
         locationId: "Jakarta",
         locationEn: "Jakarta",
         image: "https://res.cloudinary.com/dmx8hcmxh/image/upload/v1767780151/Monumen_Nasional-Jakarta_r9ppox.jpg",
-        size: "large",
+        size: "medium",
     },
     {
         id: 8,
@@ -317,7 +317,7 @@ export const GalleryItems = [
         locationId: "Jawa Tengah",
         locationEn: "Central Java",
         image: "https://res.cloudinary.com/dmx8hcmxh/image/upload/v1767781817/Keris_Provinsi_Jawa_Tengah_czxfrt.jpg",
-        size: "small",
+        size: "medium",
     },
     {
         id: 33,
@@ -327,7 +327,7 @@ export const GalleryItems = [
         locationId: "Nusa Tenggara Timur",
         locationEn: "East Nusa Tenggara",
         image: "https://res.cloudinary.com/dmx8hcmxh/image/upload/v1767782773/Danau_Kelimutu_Provinsi_Nusa_Tenggara_Timur_NTT_aowij8.jpg",
-        size: "small",
+        size: "large",
     },
     {
         id: 34,
@@ -347,7 +347,7 @@ export const GalleryItems = [
         locationId: "Jakarta",
         locationEn: "Jakarta",
         image: "https://res.cloudinary.com/dmx8hcmxh/image/upload/v1767780150/Kota_Tua-Jakarta_p4uoit.jpg",
-        size: "large",
+        size: "small",
     },
     {
         id: 36,
@@ -357,7 +357,7 @@ export const GalleryItems = [
         locationId: "Jawa Barat",
         locationEn: "West Java",
         image: "https://res.cloudinary.com/dmx8hcmxh/image/upload/v1767781817/Tari_Jaipong_Provinsi_Jawa_Barat_bfsmrj.jpg",
-        size: "small",
+        size: "medium",
     },
     {
         id: 37,
@@ -397,7 +397,7 @@ export const GalleryItems = [
         locationId: "Aceh",
         locationEn: "Aceh",
         image: "https://res.cloudinary.com/dmx8hcmxh/image/upload/v1767781818/Rencong_Provinsi_Aceh_bbqpgr.jpg",
-        size: "small",
+        size: "medium",
     },
     {
         id: 41,
@@ -437,7 +437,7 @@ export const GalleryItems = [
         locationId: "Sumatera Barat",
         locationEn: "West Sumatra",
         image: "https://res.cloudinary.com/dmx8hcmxh/image/upload/v1767781816/Tari_Piring_Provinsi_Sumatra_Barat_mw1ipw.jpg",
-        size: "small",
+        size: "medium",
     },
     {
         id: 45,
@@ -557,7 +557,7 @@ export const GalleryItems = [
         locationId: "Kalimantan Barat",
         locationEn: "West Kalimantan",
         image: "https://res.cloudinary.com/dmx8hcmxh/image/upload/v1767781816/Mandau_Provinsi_Kalimantan_Barat_pp68uc.jpg",
-        size: "small",
+        size: "medium",
     },
     {
         id: 57,
@@ -567,7 +567,7 @@ export const GalleryItems = [
         locationId: "Banten",
         locationEn: "Banten",
         image: "https://res.cloudinary.com/dmx8hcmxh/image/upload/v1767782773/Taman_Nasional_Ujung_Kulon_Provinsi_Banten_hrirnd.jpg",
-        size: "small",
+        size: "medium",
     },
     {
         id: 58,

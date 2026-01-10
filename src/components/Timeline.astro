@@ -12,6 +12,15 @@ const content = {
             "Tracing the footsteps of civilizations that shaped Indonesia",
     },
 };
+
+const iframeSrt = {
+    id: {
+        src: "https://cdn.knightlab.com/libs/timeline3/latest/embed/index.html?source=v2%3A2PACX-1vRWx87SdRdSS3bfV9UW-JglcrIVDak3muoeo7BcL9yAROx2XHlMC3U5O4HadjekGr0mzvziazSwuR8e&font=Default&lang=en&initial_zoom=2&width=100%25&height=650"
+    },
+    en: {
+        src: "https://cdn.knightlab.com/libs/timeline3/latest/embed/index.html?source=v2%3A2PACX-1vSnFO5p_FDUzpCb70RM9DtVqhghdo-uHlbAEIYAWhlKLpxteAmNG4Jocy91CfO9B81QT9lhC9ZplXp8&font=Default&lang=en&initial_zoom=2&width=100%25&height=650"
+    },
+}
 ---
 
 <section
@@ -50,7 +59,8 @@ const content = {
         <!-- TimelineJS Embed -->
         <div class="timeline__embed fade-up">
             <iframe
-                src="https://cdn.knightlab.com/libs/timeline3/latest/embed/index.html?source=v2%3A2PACX-1vRWx87SdRdSS3bfV9UW-JglcrIVDak3muoeo7BcL9yAROx2XHlMC3U5O4HadjekGr0mzvziazSwuR8e&font=Default&lang=en&initial_zoom=2&width=100%25&height=650"
+                id="timeline-iframe"
+                src={iframeSrt.id.src}
                 width="100%"
                 height="650"
                 allowfullscreen
@@ -60,6 +70,10 @@ const content = {
         </div>
     </div>
 </section>
+
+<script define:vars={{ iframeSrt }}>
+    window.timelineIframeSrc = iframeSrt;
+</script>
 
 <style>
     .timeline__embed {
@@ -78,6 +92,9 @@ const content = {
 
     gsap.registerPlugin(ScrollTrigger);
 
+    const timelineIframeSrc = (window as any).timelineIframeSrc;
+    const timelineIframe = document.getElementById("timeline-iframe") as HTMLIFrameElement;
+
     // Language change handler
     window.addEventListener("langchange", (e: CustomEvent) => {
         const lang = e.detail.lang;
@@ -89,5 +106,10 @@ const content = {
                 const contentEn = el.getAttribute("data-content-en");
                 el.textContent = lang === "id" ? contentId : contentEn;
             });
+
+        // Update iframe src based on language
+        if (timelineIframe && timelineIframeSrc) {
+            timelineIframe.src = lang === "id" ? timelineIframeSrc.id.src : timelineIframeSrc.en.src;
+        }
     });
 </script>
