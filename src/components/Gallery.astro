@@ -29,7 +29,7 @@ const categories = [
 import { GalleryItems as galleryItems } from "../constant/gallery";
 ---
 
-<section class="gallery section section--alt bg-gallery-texture" id="gallery">
+<section class="gallery section section--alt" id="gallery">
     <div class="container">
         <!-- Section Header -->
         <div class="section-header fade-up">
@@ -191,28 +191,6 @@ import { GalleryItems as galleryItems } from "../constant/gallery";
 </script>
 
 <style>
-    /* Gallery Texture Background */
-    .bg-gallery-texture {
-        position: relative;
-    }
-
-    .bg-gallery-texture::before {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background-image: url("https://res.cloudinary.com/dmx8hcmxh/image/upload/v1767775324/Untitled_design_2_qridiu.png");
-        background-size: 300px;
-        background-repeat: repeat;
-        opacity: 0.08;
-        pointer-events: none;
-        z-index: 0;
-    }
-
-    .bg-gallery-texture > * {
-        position: relative;
-        z-index: 1;
-    }
-
     .gallery {
         overflow: hidden;
         background-color: var(--charcoal);
