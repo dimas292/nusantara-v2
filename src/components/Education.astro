@@ -13,25 +13,6 @@ const didYouKnow = {
         "Indonesia memiliki populasi 'muda' terbesar di dunia",
         "Rumah bagi lebih dari 700 bahasa dan dialek yang berbeda",
         "Indonesia adalah tempat terpanas di Cincin Api Pasifik",
-        "Rumah bagi Puncak Jaya, puncak pulau tertinggi di dunia",
-        "Rumah bagi Danau Toba, danau vulkanik terbesar di dunia",
-        "Rumah bagi pulau bekas pemburu kepala di Kalimantan",
-        "Indonesia memiliki sejarah yang unik dengan tradisi perburuan kepala di masa lalu",
-        "Indonesia adalah satu-satunya tempat di dunia untuk mengamati komodo di alam liar",
-        "Sumatera adalah salah satu dari hanya dua tempat di dunia untuk mengamati orangutan liar",
-        "Rumah bagi Candi Borobudur, kuil Buddha terbesar di dunia",
-        "Indonesia dan Monako memiliki bendera yang sama persis",
-        "Pemegang Rekor Dunia Guinness untuk 'Paket mie instan terbesar'",
-        "Negara berkembang pertama yang mengoperasikan sistem satelit domestik mereka sendiri",
-        "Rumah bagi salah satu letusan gunung berapi modern terbesar di dunia, Gunung Tambora",
-        "Indonesia masih memberlakukan hukuman mati oleh regu tembak",
-        "Ada lebih dari 700 bahasa yang digunakan di Indonesia",
-        "Komodo (Varanus komodoensis) hanya ditemukan di Taman Nasional Komodo",
-        "Tradisi Subak, sistem irigasi tradisional di Bali, dilindungi UNESCO",
-        "Populasi Muslim di Indonesia adalah yang terbesar di dunia dengan lebih dari 230 juta jiwa",
-        "Dunia penerbangan Indonesia adalah salah satu yang paling berkembang pesat di Asia",
-        "Indonesia adalah salah satu dari 17 negara Megadiverse di dunia",
-
     ],
     en: [
         "Indonesia is the Largest Archipelagic Country in the World with over 17,000 islands",
@@ -46,26 +27,13 @@ const didYouKnow = {
         "Indonesia has the largest 'young' population in the world",
         "Home to more than 700 different languages and dialects",
         "Indonesia is the hottest spot on the Pacific Ring of Fire",
-        "Home to Puncak Jaya, the highest island peak in the world",
-        "Home to Lake Toba, the largest volcanic lake in the world",
-        "Home to the former headhunter islands in Kalimantan",
-        "Indonesia has a unique history with headhunting traditions in the past",
-        "Indonesia is the only place in the world to observe Komodo dragons in the wild",
-        "Sumatra is one of only two places in the world to observe wild orangutans",
-        "Home to Borobudur, the largest Buddhist temple in the world",
-        "Indonesia and Monaco have the exact same flag",
-        "Guinness World Record holder for 'Largest instant noodle package'",
-        "The first developing country to operate their own domestic satellite system",
-        "Home to one of the largest modern volcanic eruptions in the world, Mount Tambora",
-        "Indonesia still enforces the death penalty by firing squad",
-        "There are more than 700 languages spoken in Indonesia",
-        "Komodo dragon (Varanus komodoensis) is only found in Komodo National Park",
-        "Subak tradition, the traditional irrigation system in Bali, is protected by UNESCO",
-        "The Muslim population in Indonesia is the largest in the world with over 230 million people",
-        "Indonesia's aviation industry is one of the fastest growing in Asia",
-        "Indonesia is one of the 17 Megadiverse countries in the world",
     ],
 };
+
+const row1_id = didYouKnow.id.slice(0, 6);
+const row2_id = didYouKnow.id.slice(6, 12);
+const row1_en = didYouKnow.en.slice(0, 6);
+const row2_en = didYouKnow.en.slice(6, 12);
 
 const content = {
     id: {
@@ -91,26 +59,73 @@ const content = {
                 >
                     {content.id.eyebrow}
                 </span>
-                <h3 class="education__know-title" id="know-title">
+                <h3
+                    class="education__know-title"
+                    id="know-title"
+                    data-content-id={content.id.title}
+                    data-content-en={content.en.title}
+                >
                     {content.id.title}
                 </h3>
             </div>
-            <div class="education__know-content" id="know-content">
-                <p class="education__know-text" id="know-text"></p>
-            </div>
+        </div>
+    </div>
+
+    <!-- Marquee Row 1 - Scroll Left -->
+    <div class="marquee-wrapper">
+        <div class="marquee-content scroll-left" id="marquee-row1">
+            {
+                [...row1_id, ...row1_id, ...row1_id].map((item, idx) => (
+                    <div class="fact-card" data-lang="id">
+                        <div class="fact-card__body">
+                            <p>{item}</p>
+                        </div>
+                    </div>
+                ))
+            }
+            {
+                [...row1_en, ...row1_en, ...row1_en].map((item, idx) => (
+                    <div class="fact-card" data-lang="en" style="display: none;">
+                        <div class="fact-card__body">
+                            <p>{item}</p>
+                        </div>
+                    </div>
+                ))
+            }
+        </div>
+    </div>
+
+    <!-- Marquee Row 2 - Scroll Right -->
+    <div class="marquee-wrapper">
+        <div class="marquee-content scroll-right" id="marquee-row2">
+            {
+                [...row2_id, ...row2_id, ...row2_id].map((item, idx) => (
+                    <div class="fact-card" data-lang="id">
+                        <div class="fact-card__body">
+                            <p>{item}</p>
+                        </div>
+                    </div>
+                ))
+            }
+            {
+                [...row2_en, ...row2_en, ...row2_en].map((item, idx) => (
+                    <div class="fact-card" data-lang="en" style="display: none;">
+                        <div class="fact-card__body">
+                            <p>{item}</p>
+                        </div>
+                    </div>
+                ))
+            }
         </div>
     </div>
 </section>
-
-<!-- Know Data for JS -->
-<script define:vars={{ didYouKnow }}>
-    window.didYouKnowData = didYouKnow;
-</script>
 
 <style>
     .education {
         background-color: var(--charcoal);
         color: var(--warm-white);
+        padding-bottom: var(--space-2xl);
+        overflow: hidden;
     }
 
     /* Override section header eyebrow color for dark background */
@@ -118,19 +133,12 @@ const content = {
         color: var(--terracotta);
     }
 
-    /* Did You Know - simplified for standalone */
+    /* Did You Know Header */
     .education__know {
         background: transparent;
-        padding: var(--space-xl) 0;
+        padding: var(--space-xl) 0 var(--space-lg);
         max-width: 800px;
         margin: 0 auto;
-    }
-
-    .education__know-content {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: var(--space-lg);
     }
 
     .education__know-header {
@@ -139,11 +147,7 @@ const content = {
         align-items: center;
         justify-content: center;
         gap: var(--space-xs);
-        margin-bottom: var(--space-xl);
-    }
-
-    .education__know-icon {
-        font-size: 2.5rem;
+        margin-bottom: var(--space-md);
     }
 
     .education__know-title {
@@ -152,81 +156,135 @@ const content = {
         margin: 0;
     }
 
-    .education__know-text {
-        font-size: var(--text-lg);
-        line-height: 1.8;
-        color: rgba(250, 247, 242, 0.9);
-        min-height: 60px;
-        text-align: center;
+    /* Marquee Styles */
+    .marquee-wrapper {
+        display: flex;
+        width: 100vw;
+        overflow: hidden;
+        user-select: none;
+        margin-bottom: var(--space-md);
+        mask-image: linear-gradient(
+            to right,
+            hsl(0 0% 0% / 0),
+            hsl(0 0% 0% / 1) 10%,
+            hsl(0 0% 0% / 1) 90%,
+            hsl(0 0% 0% / 0)
+        );
     }
 
-    .education__know-btn {
-        border-color: rgba(250, 247, 242, 0.3);
-        color: var(--warm-white);
+    .marquee-content {
+        display: flex;
+        gap: 20px;
+        padding: 10px;
+        flex-shrink: 0;
     }
 
-    .education__know-btn:hover {
-        background-color: var(--terracotta);
+    /* Animation */
+    .scroll-left {
+        animation: scroll-left 50s linear infinite;
+    }
+
+    .scroll-right {
+        animation: scroll-right 50s linear infinite;
+    }
+
+    @keyframes scroll-left {
+        from {
+            transform: translateX(0);
+        }
+        to {
+            transform: translateX(calc(-100% / 3));
+        }
+    }
+
+    @keyframes scroll-right {
+        from {
+            transform: translateX(calc(-100% / 3));
+        }
+        to {
+            transform: translateX(0);
+        }
+    }
+
+    /* Pause on hover */
+    .marquee-wrapper:hover .marquee-content {
+        animation-play-state: paused;
+    }
+
+    /* Fact Card Styles */
+    .fact-card {
+        background: rgba(250, 247, 242, 0.05);
+        border: 1.5px solid rgba(250, 247, 242, 0.1);
+        border-radius: 20px;
+        width: 320px;
+        min-height: 160px;
+        padding: 24px;
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-sm);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        transition:
+            transform 0.3s ease,
+            border-color 0.3s ease,
+            background 0.3s ease;
+    }
+
+    .fact-card:hover {
+        transform: translateY(-5px);
         border-color: var(--terracotta);
+        background: rgba(250, 247, 242, 0.08);
+    }
+
+    .fact-card__body p {
+        font-family: var(--font-body);
+        font-size: var(--text-base);
+        line-height: 1.6;
+        margin: 0;
+        color: rgba(250, 247, 242, 0.9);
+        display: -webkit-box;
+        -webkit-line-clamp: 4;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .fact-card {
+            width: 280px;
+            min-height: 140px;
+            padding: 20px;
+        }
+
+        .fact-card__body p {
+            font-size: var(--text-sm);
+        }
+
+        .education__know-title {
+            font-size: var(--text-3xl);
+        }
     }
 </style>
 
 <script>
-    import gsap from "gsap";
-
-    const didYouKnowData = (window as any).didYouKnowData;
-    const knowText = document.getElementById("know-text");
-    const knowTitle = document.getElementById("know-title");
-    const knowBtnText = document.getElementById("know-btn-text");
-
-    let currentFactIndex = 0;
-    let currentLang = localStorage.getItem("lang") || "en";
-
-    function showFact() {
-        const facts = didYouKnowData[currentLang];
-        if (!knowText || !facts) return;
-
-        gsap.to(knowText, {
-            opacity: 0,
-            y: -10,
-            duration: 0.2,
-            onComplete: () => {
-                knowText.textContent = facts[currentFactIndex];
-                gsap.to(knowText, {
-                    opacity: 1,
-                    y: 0,
-                    duration: 0.3,
-                });
-            },
+    // Language change handler for marquee cards
+    function updateMarqueeLanguage(lang: string) {
+        const allCards = document.querySelectorAll(".fact-card");
+        allCards.forEach((card) => {
+            const cardLang = card.getAttribute("data-lang");
+            if (cardLang === lang) {
+                (card as HTMLElement).style.display = "flex";
+            } else {
+                (card as HTMLElement).style.display = "none";
+            }
         });
     }
 
-    function nextFact() {
-        const facts = didYouKnowData[currentLang];
-        currentFactIndex = (currentFactIndex + 1) % facts.length;
-        showFact();
-    }
+    // Initialize with current language
+    const currentLang = localStorage.getItem("language") || "id";
+    updateMarqueeLanguage(currentLang);
 
-    // Initialize
-    showFact();
-
-    // Auto rotate every 8 seconds
-    setInterval(nextFact, 8000);
-
-    // Language change handler
-    window.addEventListener("langchange", (e: CustomEvent) => {
-        currentLang = e.detail.lang;
-        currentFactIndex = 0;
-        showFact();
-
-        // Update title and button
-        if (knowTitle) {
-            knowTitle.textContent =
-                currentLang === "id" ? "Tahukah Kamu?" : "Did You Know?";
-        }
-        if (knowBtnText) {
-            knowBtnText.textContent =
-                currentLang === "id" ? "Fakta Lainnya" : "Another Fact";
-        }
-    });
+    // Listen for language changes
+    window.addEventListener("langchange", ((e: CustomEvent) => {
+        updateMarqueeLanguage(e.detail.lang);
+    }) as EventListener);
 </script>

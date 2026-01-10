@@ -59,6 +59,9 @@ const content = {
                         data-short-description={
                             province.short_description || ""
                         }
+                        data-short-description-id={
+                            province.short_description_id || ""
+                        }
                         data-description={province.description || ""}
                         data-image={province.image_url || ""}
                         data-population={province.population || ""}
@@ -209,8 +212,19 @@ const content = {
         paths.forEach((path) => {
             path.addEventListener("mousemove", (e: MouseEvent) => {
                 const target = e.currentTarget as SVGPathElement;
-                const title = target.getAttribute("data-title");
-                const shortDesc = target.getAttribute("data-short-description");
+                
+                // Get current language from localStorage or default to 'id'
+                const currentLang = localStorage.getItem("language") || "id";
+                
+                // Get title based on language
+                const title = currentLang === "en" 
+                    ? target.getAttribute("data-title-en") || target.getAttribute("data-title")
+                    : target.getAttribute("data-title");
+                
+                // Get short description based on language
+                const shortDescEn = target.getAttribute("data-short-description");
+                const shortDescId = target.getAttribute("data-short-description-id");
+                const shortDesc = currentLang === "en" ? shortDescEn : (shortDescId || shortDescEn);
 
                 if (tooltip && tooltipTitle) {
                     tooltipTitle.textContent = title || "";
