@@ -17,7 +17,7 @@ const navItems = [
     <div class="navbar__container container flex flex--between">
         <!-- Logo -->
         <a href="#home" class="navbar__logo">
-            <span class="navbar__logo-text">Nusantara</span>
+            <img src="/NUSANTARA.svg" alt="Nusantara" class="navbar__logo-img" />
         </a>
         <!-- Desktop Menu -->
         <ul class="navbar__menu" id="nav-menu">
@@ -112,6 +112,11 @@ const navItems = [
         display: flex;
         align-items: center;
         gap: var(--space-sm);
+    }
+
+    .navbar__logo-img {
+        height: 180px;
+        width: auto;
     }
 
     .navbar__logo-text {
