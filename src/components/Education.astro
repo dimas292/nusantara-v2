@@ -11,6 +11,17 @@ const didYouKnow = {
         "Toraja's Tongkonan house faces north as a symbol of connection with ancestors",
     ],
 };
+
+const content = {
+    id: {
+        eyebrow: "Fakta Menarik",
+        title: "Tahukah Kamu?",
+    },
+    en: {
+        eyebrow: "Fact",
+        title: "Did You Know?",
+    },
+};
 ---
 
 <section class="education section" id="education">
@@ -18,9 +29,15 @@ const didYouKnow = {
         <!-- Did You Know Section -->
         <div class="education__know fade-up">
             <div class="education__know-header">
-                <span class="education__know-icon"></span>
+                <span
+                    class="section-header__eyebrow"
+                    data-content-id={content.id.eyebrow}
+                    data-content-en={content.en.eyebrow}
+                >
+                    {content.id.eyebrow}
+                </span>
                 <h3 class="education__know-title" id="know-title">
-                    Tahukah Kamu?
+                    {content.id.title}
                 </h3>
             </div>
             <div class="education__know-content" id="know-content">
@@ -41,6 +58,11 @@ const didYouKnow = {
         color: var(--warm-white);
     }
 
+    /* Override section header eyebrow color for dark background */
+    .education .section-header__eyebrow {
+        color: var(--terracotta);
+    }
+
     /* Did You Know - simplified for standalone */
     .education__know {
         background: transparent;
@@ -58,9 +80,10 @@ const didYouKnow = {
 
     .education__know-header {
         display: flex;
+        flex-direction: column;
         align-items: center;
         justify-content: center;
-        gap: var(--space-md);
+        gap: var(--space-xs);
         margin-bottom: var(--space-xl);
     }
 
@@ -131,8 +154,6 @@ const didYouKnow = {
 
     // Initialize
     showFact();
-
-
 
     // Auto rotate every 8 seconds
     setInterval(nextFact, 8000);

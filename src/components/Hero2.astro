@@ -61,11 +61,11 @@ const content = {
                 >
                     {content.id.subtitle}
                 </p>
-                <button
+                <a
+                    href="#intro"
                     class="btn-explore btn-explore-animate"
                     data-content-id={content.id.button}
-                    data-content-en={content.en.button}
-                    >{content.id.button}</button
+                    data-content-en={content.en.button}>{content.id.button}</a
                 >
             </div>
 
@@ -197,18 +197,27 @@ const content = {
     }
 
     .btn-explore {
+        display: inline-block;
         padding: 16px 36px;
         border-radius: 12px;
-        border: 2px solid var(--warm-white);
-        background: transparent;
-        color: var(--warm-white);
+        border: 2px solid #ffffff;
+        background: #ffffff;
+        color: #000000;
         font-weight: 700;
         font-size: 0.95rem;
         letter-spacing: 0.05em;
         text-transform: uppercase;
         cursor: pointer;
+        text-decoration: none;
+        text-align: center;
         opacity: 0;
         transform: translateY(30px);
+        transition: all 0.3s ease;
+    }
+
+    .btn-explore:hover {
+        background: transparent;
+        color: #ffffff;
     }
 
     /* SLIDER NAV (Paku di kanan) */
